@@ -40,8 +40,6 @@
 **/CMakeScripts
 **/compile_commands.json
 
-include/divisible/*
-
 
 ## Local 
 
@@ -49,7 +47,9 @@ include/divisible/*
 
 build/**/*
 
-include/*
 lib/*
 bin/*
 test/test_runner
+
+# clangd cache
+.cache/
