@@ -18,6 +18,16 @@ int main(int argc, char *argv[])
     false
   );
 
+  zcl::Attribute read_attr;
+
+  device.execute_cluster_command<zcl::Attribute&>(
+    1,
+    zcl::on_off_cluster::cluster_descriptor.id,
+    zcl::read_attribute_command_descriptor.id,
+    true,
+    read_attr
+  );
+
   std::cout << " --- Exiting --- " << std::endl;
 
   return 0;
