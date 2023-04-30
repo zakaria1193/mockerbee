@@ -89,6 +89,7 @@ namespace zcl
       : descriptor(descriptor), 
         value(value)
     {}
+    Attribute() = default;
   };
 
   using attributes_list_t = std::vector<Attribute>;
