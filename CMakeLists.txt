@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 
 project(mockerbee VERSION 1.0.0)
 
+set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
 ############################################################
 # Set compiler options
 ############################################################
@@ -22,11 +24,14 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 ############################################################
 # Create a library
 ############################################################
+set(LIBRARY_SOURCES
+    src/clusters/on_off.cpp
+    src/clusters/global_commands.cpp
+)
 
 #Generate the static library from the library sources
 add_library(mockbee_library STATIC 
-    src/clusters/on_off.cpp
-    src/clusters/global_commands.cpp
+    ${LIBRARY_SOURCES}
 )
 
 target_include_directories(mockbee_library
@@ -34,15 +39,19 @@ target_include_directories(mockbee_library
         ${PROJECT_SOURCE_DIR}/include
 )
 
-set(CMAKE_VERBOSE_MAKEFILE ON)
+# Set to ON to enable verbose output when building
+set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 ############################################################
 # Create an executable
 ############################################################
+set(EXECUTABLE_SOURCES
+    src/main.cpp
+)
 
 # Add an executable with the above sources
 add_executable(mockbee_test_bin
-    src/main.cpp
+    ${EXECUTABLE_SOURCES}
 )
 
 # link the new hello_library target with the hello_binary target
