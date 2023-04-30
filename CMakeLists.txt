@@ -1,18 +1,23 @@
 cmake_minimum_required(VERSION 3.5)
 
-set(CMAKE_CXX_STANDARD 23)  # set the C++ standard to use
-set(CMAKE_CXX_COMPILER "/usr/bin/clang++")  # set the path to the clang++ compiler
+project(mockerbee VERSION 1.0.0)
 
+############################################################
+# Set compiler options
+############################################################
+# Set the C++ standard to use
+set(CMAKE_CXX_STANDARD 23)
 
+# Set the clang++ compiler
+set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
+
+# Debugging options
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -g")
 set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -g")
 
-# CMAKE_EXPORT_COMPILE_COMMANDS
+# Compile_commands.json generation
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
-
-
-project(hello_library)
 
 ############################################################
 # Create a library
