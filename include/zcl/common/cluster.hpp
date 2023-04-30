@@ -132,7 +132,14 @@ public:
                 }
                 // Downcast from CommandBase to a cluster command
                 using target_type = const Command<Cluster&, Args...> * const;
-                auto cmd_ptr = static_cast<target_type>(gen_cmd_ptr);
+
+                auto cmd_ptr = dynamic_cast<target_type>(gen_cmd_ptr);
+                if (cmd_ptr == nullptr)
+                {
+                    throw std::runtime_error("Command downcast failed,"
+                                             "make sure the template arguments are correct");
+                }
+
                 return (*cmd_ptr)(*this, args...);
             }
         }
