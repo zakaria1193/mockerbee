@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 
   std::cout << "Running..." << std::endl;
 
-  device.execute_cluster_command<>(
+  device.execute_cluster_command(
     1,
     zcl::on_off_cluster::cluster_descriptor.id,
     zcl::on_off_cluster::setOffCmdDescriptor.id,
@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 
   zcl::Attribute read_attr;
 
-  device.execute_cluster_command<zcl::Attribute&>(
+  device.execute_cluster_command(
     1,
     zcl::on_off_cluster::cluster_descriptor.id,
     zcl::read_attribute_command_descriptor.id,
