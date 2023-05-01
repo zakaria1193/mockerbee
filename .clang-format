@@ -1,0 +1,10 @@
+﻿---
+AlignConsecutiveAssignments: 'true'
+AlignConsecutiveDeclarations: 'true'
+AlignEscapedNewlines: Right
+AlignOperands: 'true'
+BreakBeforeBraces: Allman
+AlignAfterOpenBracket: 'true'
+TabWidth: '2'
+UseTab: Never
+...
