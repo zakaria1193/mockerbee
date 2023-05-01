@@ -73,7 +73,6 @@ if(CLANG_TIDY_EXE)
     set(DO_CLANG_TIDY
       "${CLANG_TIDY_EXE}"
       -p ${CMAKE_BINARY_DIR}/compile_commands.json
-      "-checks=*"
       )
     add_custom_target(
         clang-tidy-run
