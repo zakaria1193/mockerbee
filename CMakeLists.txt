@@ -60,6 +60,19 @@ target_link_libraries( mockbee_test_bin
         mockbee_library
 )
 
+############################################################
+# Gen vars for include files
+############################################################
+
+file(GLOB_RECURSE
+  PRIVATE_INCLUDE_FILES
+  "${CMAKE_SOURCE_DIR}/src/include/**/*.h"
+)
+
+file(GLOB_RECURSE
+  PUBLIC_INCLUDE_FILES
+  "${CMAKE_SOURCE_DIR}/include/**/*.h"
+)
 
 ############################################################
 # Add clang tidy
@@ -88,4 +101,29 @@ if(CLANG_TIDY_EXE)
         COMMENT "Running clang-tidy fix"
         VERBATIM
     )
+else()
+    message(STATUS "clang-tidy not found.")
+endif()
+
+############################################################
+# Add clang format
+############################################################
+
+find_program(CLANG_FORMAT "clang-format")
+
+if(CLANG_FORMAT)
+  message(STATUS "clang-format found: ${CLANG_FORMAT}")
+  # Add a custom target to run Clang-Format on all relevant files
+  file(GLOB_RECURSE FORMAT_SOURCES
+    ${PUBLIC_INCLUDE_FILES}
+    ${PRIVATE_INCLUDE_FILES}
+    ${EXECUTABLE_SOURCES}
+    ${LIBRARY_SOURCES})
+  add_custom_target(clang-format
+    COMMAND ${CLANG_FORMAT} -i ${FORMAT_SOURCES}
+    COMMENT "Running Clang-Format"
+    VERBATIM
+  )
+else()
+  message(STATUS "clang-format not found.")
 endif()
