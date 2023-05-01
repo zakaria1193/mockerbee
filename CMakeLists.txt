@@ -55,9 +55,9 @@ add_executable(mockbee_test_bin
 )
 
 # link the new hello_library target with the hello_binary target
-target_link_libraries( mockbee_test_bin
+target_link_libraries(mockbee_test_bin
     PRIVATE 
-        mockbee_library
+    mockbee_library
 )
 
 ############################################################
