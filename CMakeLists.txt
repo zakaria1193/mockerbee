@@ -66,12 +66,12 @@ target_link_libraries(mockbee_test_bin
 
 file(GLOB_RECURSE
   PRIVATE_INCLUDE_FILES
-  "${CMAKE_SOURCE_DIR}/src/include/**/*.h"
+  "${CMAKE_SOURCE_DIR}/src/include/*"
 )
 
 file(GLOB_RECURSE
   PUBLIC_INCLUDE_FILES
-  "${CMAKE_SOURCE_DIR}/include/**/*.h"
+  "${CMAKE_SOURCE_DIR}/include/*"
 )
 
 ############################################################
