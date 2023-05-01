@@ -114,14 +114,20 @@ find_program(CLANG_FORMAT "clang-format")
 if(CLANG_FORMAT)
   message(STATUS "clang-format found: ${CLANG_FORMAT}")
   # Add a custom target to run Clang-Format on all relevant files
-  file(GLOB_RECURSE FORMAT_SOURCES
+  file(GLOB_RECURSE FORMAT_FILES
     ${PUBLIC_INCLUDE_FILES}
     ${PRIVATE_INCLUDE_FILES}
     ${EXECUTABLE_SOURCES}
     ${LIBRARY_SOURCES})
+
+  set(CLANG_FORMAT_CONFIG_FILE "${CMAKE_SOURCE_DIR}/.clang-format")
   add_custom_target(clang-format
-    COMMAND ${CLANG_FORMAT} -i ${FORMAT_SOURCES}
+    COMMAND ${CLANG_FORMAT}
+    -style=file # Look for the .clang-format file in the WORKING_DIRECTORY
+    -i # In-place editing of the files
+    ${FORMAT_FILES} # Files to format
     COMMENT "Running Clang-Format"
+    WORKING_DIRECTORY ${PROJECT_DIR}
     VERBATIM
   )
 else()
