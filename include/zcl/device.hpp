@@ -1,10 +1,11 @@
 #pragma once
+#include <cstdint>
+#include <utility>
+#include <vector>
 #include <zcl/clusters/on_off_cluster.hpp>
+
 #include "zcl/common/cluster.hpp"
 #include "zcl/common/commands.hpp"
-
-#include <stdint.h>
-#include <vector>
 
 namespace zcl {
 

@@ -1,9 +1,10 @@
 #pragma once
 
 #include <cstdint>
-#include <string>
-#include <variant>
 #include <stdexcept>
+#include <string>
+#include <utility>
+#include <variant>
 #include <vector>
 
 #include "reporting_configuration.hpp"
