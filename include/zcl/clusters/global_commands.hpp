@@ -23,7 +23,7 @@ namespace zcl {
                                          const attr_id_t attribute_id,
                                          attr_value_t &value);
   const Command readAttributeCommand {
-      /*executer=*/readAttributeCommandExecuter
+      /*exec=*/readAttributeCommandExecuter
   };
 
   const command_descriptor_t write_attribute_command_descriptor{
@@ -36,7 +36,7 @@ namespace zcl {
                                           const attr_id_t attribute_id,
                                           const attr_value_t &value);
   const Command writeAttributeCommand {
-      /*executer=*/writeAttributeCommandExecuter
+      /*exec=*/writeAttributeCommandExecuter
   };
 
   const command_descriptor_t configure_reporting_command_descriptor{
@@ -49,7 +49,7 @@ namespace zcl {
                                               const attr_id_t attribute_id,
                                               const ReportingConfiguration &reporting_configuration);
   const Command configureReportingCommand {
-      /*executer=*/configureReportingCommandExecuter
+      /*exec=*/configureReportingCommandExecuter
   };
 
   const command_descriptor_t discover_attributes_command_descriptor{
@@ -61,7 +61,7 @@ namespace zcl {
   ZclStatus discoverAttributesCommandExecuter(const Cluster &cluster,
                                               std::vector<AttributeDescriptor> &attribute_descriptors);
   const Command discoverAttributesCommand {
-      /*executer=*/discoverAttributesCommandExecuter
+      /*exec=*/discoverAttributesCommandExecuter
   };
 
   // FIXME This command requires a special handling
@@ -75,7 +75,7 @@ namespace zcl {
   ZclStatus reportAttributesCommandExecuter(const Cluster &cluster,
                                             const Attribute &attribute);
   const Command reportAttributesCommand {
-      /*executer=*/reportAttributesCommandExecuter
+      /*exec=*/reportAttributesCommandExecuter
   };
 
 }
