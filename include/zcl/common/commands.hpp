@@ -3,56 +3,57 @@
 #include <functional>
 #include <map>
 #include <string>
-#include "zcl/common/zcl_status.hpp"
+
 #include "iostream"
+#include "zcl/common/zcl_status.hpp"
 
 namespace zcl
 {
-  using command_id_t = uint8_t;
+using command_id_t = uint8_t;
 
-  struct command_descriptor_t
+struct command_descriptor_t
+{
+  // Static attributes to fill from cluster descriptors
+  const command_id_t id;
+  const bool         is_common;
+  const bool         is_mandatory;
+  const std::string  description;
+
+  // Custom comparison operator for command_descriptor_t as a key in std::map
+  bool operator<(const command_descriptor_t& other) const
   {
-    // Static attributes to fill from cluster descriptors
-    const command_id_t id;
-    const bool is_common;
-    const bool is_mandatory;
-    const std::string description;
+    return id < other.id;
+  }
+};
 
-    // Custom comparison operator for command_descriptor_t as a key in std::map
-    bool operator<(const command_descriptor_t& other) const
+class CommandBase
+{
+ public:
+  virtual ~CommandBase() = default;
+};
+
+template <typename... Args>
+class Command : public CommandBase
+{
+  using exec_t = ZclStatus (*)(Args...);
+
+ public:
+  Command(exec_t exec) : exec_(exec) {}
+
+  ZclStatus operator()(Args... args) const
+  {
+    if (exec_ == nullptr)
     {
-        return id < other.id;
-    }
-  };
-
-  class CommandBase
-  {
-  public:
-    virtual ~CommandBase() = default;
-  };
-
-  template<typename... Args>
-  class Command : public CommandBase
-  {
-    using exec_t = ZclStatus(*)(Args...);
-
-  public:
-    Command(exec_t exec) : exec_(exec) {}
-
-    ZclStatus operator()(Args... args) const
-    {
-      if (exec_ == nullptr)
-      {
-        std::cout << "Command operator() exec_ == nullptr" << std::endl;
-        return ZclStatus::null_pointer;
-      }
-
-      std::cout << "Command operator()" << exec_ << std::endl;
-      return exec_(args...);
+      std::cout << "Command operator() exec_ == nullptr" << std::endl;
+      return ZclStatus::null_pointer;
     }
 
-    exec_t exec_;
-  };
+    std::cout << "Command operator()" << exec_ << std::endl;
+    return exec_(args...);
+  }
 
-  using commands_map_t = std::map<command_descriptor_t, const CommandBase* const>;
-}
+  exec_t exec_;
+};
+
+using commands_map_t = std::map<command_descriptor_t, const CommandBase* const>;
+}  // namespace zcl
