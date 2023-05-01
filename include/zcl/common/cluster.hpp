@@ -36,7 +36,7 @@ class Cluster
     std::vector<Attribute> attributes;
     for (const auto& attr_desc : attribute_descriptors)
     {
-      attributes.emplace_back(Attribute{attr_desc});
+      attributes.emplace_back(attr_desc);
     }
     return attributes;
   }
@@ -46,14 +46,14 @@ class Cluster
   Cluster(cluster_descriptor_t                    descriptor,
           const std::vector<AttributeDescriptor>& attribute_descriptors,
           const commands_map_t                    commands_map)
-      : descriptor(descriptor),
+      : descriptor(std::move(descriptor)),
         attributes(create_attributes(attribute_descriptors)),
         commands_map(commands_map)
   {
   }
 
   // Method to get the list of attributes
-  const std::vector<Attribute>& get_attributes() const { return attributes; }
+  const attributes_list_t& get_attributes() const { return attributes; }
 
   // Method to get the list of commands
   const commands_map_t& get_commands() const { return commands_map; }

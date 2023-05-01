@@ -18,16 +18,7 @@ using attr_value_t = std::variant<int8_t, uint8_t, int16_t, uint16_t, int32_t,
 class AttributeDescriptor
 {
  public:
-  AttributeDescriptor()
-      : id(0),  // FIXME: should be an invalid value
-        is_msp(false),
-        is_reportable(false),
-        is_readable(false),
-        is_writable(false),
-        is_mandatory(false),
-        description("")
-  {
-  }
+  AttributeDescriptor() : description("") {}
 
   // Constructor
   AttributeDescriptor(attr_id_t id, bool is_msp, bool is_reportable,
@@ -39,17 +30,15 @@ class AttributeDescriptor
         is_readable(is_readable),
         is_writable(is_writable),
         is_mandatory(is_mandatory),
-        description(description)
-  {
-  }
+        description(std::move(description)) {}
 
   // Static attributes to fill from cluster descriptors
-  const attr_id_t id;
-  const bool      is_msp;
-  const bool      is_reportable;
-  const bool      is_readable;
-  const bool      is_writable;
-  const bool      is_mandatory;
+  const attr_id_t id{0};
+  const bool is_msp{false};
+  const bool is_reportable{false};
+  const bool is_readable{false};
+  const bool is_writable{false};
+  const bool is_mandatory{false};
 
   const std::string description;
 };
@@ -80,12 +69,11 @@ class Attribute
   }
 
   // Constructor
-  Attribute(const AttributeDescriptor& descriptor) : descriptor(descriptor) {}
+  Attribute(AttributeDescriptor descriptor)
+      : descriptor(std::move(descriptor)) {}
   // Constructor with default value
-  Attribute(const AttributeDescriptor& descriptor, const attr_value_t& value)
-      : descriptor(descriptor), value(value)
-  {
-  }
+  Attribute(AttributeDescriptor descriptor, attr_value_t value)
+      : descriptor(std::move(descriptor)), value(std::move(value)) {}
   Attribute() = default;
 };
 

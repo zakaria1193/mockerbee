@@ -18,9 +18,7 @@ class Endpoint
 
  public:
   Endpoint(endpoint_id_t id, cluster_list_t clusters)
-      : id(id), clusters(clusters)
-  {
-  }
+      : id(id), clusters(std::move(clusters)) {}
 
   endpoint_id_t id;
 
@@ -44,7 +42,7 @@ class Device
   endpoint_list_t endpoints;
 
  public:
-  Device(endpoint_list_t endpoints) : endpoints(endpoints) {}
+  Device(endpoint_list_t endpoints) : endpoints(std::move(endpoints)) {}
 
   Endpoint& get_endpoint(const endpoint_id_t ep_id)
   {

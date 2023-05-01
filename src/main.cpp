@@ -3,11 +3,12 @@
 #include <zcl/clusters/on_off_cluster.hpp>
 #include <zcl/device.hpp>
 
-zcl::OnOffDevice device;
 
 // Do not optimize
 int main(int argc, char *argv[])
 {
+  zcl::OnOffDevice device;
+
   std::cout << "Running..." << std::endl;
 
   device.execute_cluster_command(1, zcl::on_off_cluster::cluster_descriptor.id,
