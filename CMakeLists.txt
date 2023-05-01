@@ -68,15 +68,25 @@ target_link_libraries( mockbee_test_bin
 # Add clang-tidy to the project
 find_program(CLANG_TIDY_EXE NAMES "clang-tidy" "clang-tidy-11" "clang-tidy-10" "clang-tidy-9")
 
-
 if(CLANG_TIDY_EXE)
     message(STATUS "clang-tidy found: ${CLANG_TIDY_EXE}")
-    set(DO_CLANG_TIDY "${CLANG_TIDY_EXE}" "-checks=*")
+    set(DO_CLANG_TIDY
+      "${CLANG_TIDY_EXE}"
+      -p ${CMAKE_BINARY_DIR}/compile_commands.json
+      "-checks=*"
+      )
     add_custom_target(
-        clang-tidy
+        clang-tidy-run
         COMMAND ${DO_CLANG_TIDY} ${EXECUTABLE_SOURCES} ${LIBRARY_SOURCES}
         WORKING_DIRECTORY ${PROJECT_DIR}
         COMMENT "Running clang-tidy"
+        VERBATIM
+    )
+    add_custom_target(
+        clang-tidy-fix
+        COMMAND ${DO_CLANG_TIDY} -fix ${EXECUTABLE_SOURCES} ${LIBRARY_SOURCES}
+        WORKING_DIRECTORY ${PROJECT_DIR}
+        COMMENT "Running clang-tidy fix"
         VERBATIM
     )
 endif()
