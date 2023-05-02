@@ -133,3 +133,29 @@ if(CLANG_FORMAT)
 else()
   message(STATUS "clang-format not found.")
 endif()
+
+############################################################
+# Add cppcheck
+############################################################
+
+find_program(CPPCHECK "cppcheck")
+
+if(CPPCHECK)
+  message(STATUS "cppcheck found: ${CPPCHECK}")
+  # Add a custom target to run Clang-Format on all relevant files
+  file(GLOB_RECURSE CPPCHECK_FILES
+    ${PUBLIC_INCLUDE_FILES}
+    ${PRIVATE_INCLUDE_FILES}
+    ${EXECUTABLE_SOURCES}
+    ${LIBRARY_SOURCES})
+
+  add_custom_target(cppcheck
+    COMMAND ${CPPCHECK}
+    --enable=all
+    ${CPPCHECK_FILES} # Files to format
+    COMMENT "Running cppcheck"
+    WORKING_DIRECTORY ${PROJECT_DIR}
+  )
+else()
+  message(STATUS "cppcheck not found.")
+endif()
