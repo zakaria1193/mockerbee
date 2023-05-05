@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ZCL_COMMON_ATTRIBUTES_HPP
+#define ZCL_COMMON_ATTRIBUTES_HPP
 
 #include <cstdint>
 #include <stdexcept>
@@ -79,3 +80,5 @@ class Attribute
 
 using attributes_list_t = std::vector<Attribute>;
 }  // namespace zcl
+
+#endif  // ZCL_COMMON_ATTRIBUTES_HPP

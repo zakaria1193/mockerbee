@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ZCL_STATUS_HPP
+#define ZCL_STATUS_HPP
 
 namespace zcl
 {
@@ -9,4 +10,6 @@ enum class ZclStatus
   null_pointer    = -2,
   not_implemented = -3,
 };
-}
+} // namespace zcl
+
+#endif  // ZCL_STATUS_HPP

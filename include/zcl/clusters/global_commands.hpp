@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ZCL_CLUSTERS_GLOBAL_COMMANDS_HPP
+#define ZCL_CLUSTERS_GLOBAL_COMMANDS_HPP
+
 #include <zcl/common/attributes.hpp>
 #include <zcl/common/cluster.hpp>
 #include <zcl/common/commands.hpp>
@@ -67,3 +69,5 @@ ZclStatus     reportAttributesCommandExecuter(const Cluster &  cluster,
 const Command reportAttributesCommand{/*exec=*/reportAttributesCommandExecuter};
 
 }  // namespace zcl
+
+#endif  // ZCL_CLUSTERS_GLOBAL_COMMANDS_HPP

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ZCL_DEVICE_HPP
+#define ZCL_DEVICE_HPP
+
 #include <cstdint>
 #include <utility>
 #include <vector>
@@ -77,3 +79,5 @@ class OnOffDevice : public Device
       : Device({Endpoint{1, {zcl::on_off_cluster::OnOffCluster()}}}){};
 };
 }  // namespace zcl
+
+#endif  // ZCL_DEVICE_HPP__

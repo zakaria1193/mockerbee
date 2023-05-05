@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ZCL_COMMON_COMMANDS_HPP
+#define ZCL_COMMON_COMMANDS_HPP
 
 #include <functional>
 #include <map>
@@ -57,3 +58,5 @@ class Command : public CommandBase
 
 using commands_map_t = std::map<command_descriptor_t, const CommandBase* const>;
 }  // namespace zcl
+
+#endif  // ZCL_COMMON_COMMANDS_HPP

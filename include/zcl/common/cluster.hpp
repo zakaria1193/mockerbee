@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ZCL_COMMON_CLUSTER_HPP
+#define ZCL_COMMON_CLUSTER_HPP
 
 #include <cstdint>
 #include <functional>
@@ -144,3 +145,5 @@ class Cluster
   }
 };
 }  // namespace zcl
+
+#endif  // ZCL_COMMON_CLUSTER_HPP

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ZCL_CLUSTERS_ON_OFF_CLUSTER_HPP
+#define ZCL_CLUSTERS_ON_OFF_CLUSTER_HPP
+
 #include <zcl/common/attributes.hpp>
 #include <zcl/common/cluster.hpp>
 #include <zcl/common/commands.hpp>
@@ -109,3 +111,5 @@ class OnOffCluster : public Cluster
   }
 };
 }  // namespace zcl::on_off_cluster
+
+#endif  // ZCL_CLUSTERS_ON_OFF_CLUSTER_HPP
