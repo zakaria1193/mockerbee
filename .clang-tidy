@@ -1,4 +1,3 @@
-
 ---
 # Checks:          'clang-diagnostic-*,clang-analyzer-*,cppcoreguidelines-*,modernize-*,-modernize-use-trailing-return-type, bugprone-*'
 Checks: '*'
@@ -7,4 +6,3 @@ HeaderFilterRegex: '.*'
 AnalyzeTemporaryDtors: false
 FormatStyle:     google
 ...
-G
