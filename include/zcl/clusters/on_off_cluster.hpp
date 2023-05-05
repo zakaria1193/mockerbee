@@ -8,67 +8,72 @@
 
 namespace zcl::on_off_cluster
 {
-using namespace zcl;
-
 // Attribute descriptors
-const AttributeDescriptor onOffAttributeDescriptor(
+const attribute_descriptor_t onOffAttributeDescriptor = {
     /*id=*/0,
     /*is_msp=*/false,
     /*is_reportable=*/false,
     /*is_readable=*/true,
     /*is_writable=*/true,
     /*is_mandatory=*/true,
-    /*description=*/"onOff");
-const AttributeDescriptor onTimeAttributeDescriptor(
+    /*description=*/"onOff"};
+const attribute_descriptor_t onTimeAttributeDescriptor = {
     /*id=*/16385,
     /*is_msp=*/false,
     /*is_reportable=*/false,
     /*is_readable=*/true,
     /*is_writable=*/true,
     /*is_mandatory=*/false,
-    /*description=*/"onTime");
-const AttributeDescriptor offWaitTimeAttributeDescriptor(
+    /*description=*/"onTime"};
+const attribute_descriptor_t offWaitTimeAttributeDescriptor = {
     /*id=*/16386,
     /*is_msp=*/false,
     /*is_reportable=*/false,
     /*is_readable=*/true,
     /*is_writable=*/true,
     /*is_mandatory=*/false,
-    /*description=*/"offWaitTime");
+    /*description=*/"offWaitTime"};
 
 //////////////////////////////
 // Command descriptors
 //////////////////////////////
+
+// setOff command
 const command_descriptor_t setOffCmdDescriptor{/*id=*/0,
                                                /*is_common=*/false,
                                                /*is_mandatory=*/true,
                                                /*description=*/"setOff"};
 ZclStatus                  setOffExecuter(Cluster &cluster);
-const Command              setOffCommand{/*executer=*/setOffExecuter};
+const Command              setOffCommand{/*exec=*/setOffExecuter};
 
+// setOn command
 const command_descriptor_t setOnCmdDescriptor{/*id=*/1,
                                               /*is_common=*/false,
                                               /*is_mandatory=*/true,
                                               /*description=*/"setOn"};
 ZclStatus                  setOnExecuter(Cluster &cluster);
-const Command              setOnCommand{/*executer=*/setOnExecuter};
+const Command              setOnCommand{/*exec=*/setOnExecuter};
 
+// toggle command
 const command_descriptor_t toggleCmdDescriptor{/*id=*/2,
                                                /*is_common=*/false,
                                                /*is_mandatory=*/true,
                                                /*description=*/"toggle"};
 ZclStatus                  toggleExecuter(Cluster &cluster);
-const Command              toggleCommand{/*executer=*/toggleExecuter};
+const Command              toggleCommand{/*exec=*/toggleExecuter};
 
+// offWithEffect command
 const command_descriptor_t offWithEffectCmdDescriptor{
     /*id=*/64,
     /*is_common=*/false,
     /*is_mandatory=*/false,
     /*description=*/"offWithEffect"};
-ZclStatus     offWithEffectExecuter(Cluster &cluster, uint8_t effectIdentifier,
+ZclStatus     offWithEffectExecuter(Cluster &cluster,
+                                    uint8_t effectIdentifier,
                                     uint16_t effectVariant);
-const Command offWithEffectCommand{/*executer=*/offWithEffectExecuter};
+const Command offWithEffectCommand{/*exec=*/offWithEffectExecuter};
 
+// onWithRecallGlobalScene command
 const command_descriptor_t onWithRecallGlobalSceneCmdDescriptor{
     /*id=*/65,
     /*is_common=*/false,
@@ -76,8 +81,9 @@ const command_descriptor_t onWithRecallGlobalSceneCmdDescriptor{
     /*description=*/"onWithRecallGlobalScene"};
 ZclStatus     onWithRecallGlobalSceneExecuter(Cluster &cluster);
 const Command onWithRecallGlobalSceneCommand{
-    /*executer=*/onWithRecallGlobalSceneExecuter};
+    /*exec=*/onWithRecallGlobalSceneExecuter};
 
+// onWithTimedOff command
 const command_descriptor_t onWithTimedOffCmdDescriptor{
     /*id=*/66,
     /*is_common=*/false,
@@ -85,12 +91,19 @@ const command_descriptor_t onWithTimedOffCmdDescriptor{
     /*description=*/"onWithTimedOff"};
 ZclStatus     onWithTimedOffExecuter(Cluster &cluster, uint8_t onOffControl,
                                      uint16_t onTime, uint16_t offWaitTime);
-const Command onWithTimedOffCommand{/*executer=*/onWithTimedOffExecuter};
+const Command onWithTimedOffCommand{/*exec=*/onWithTimedOffExecuter};
+
+//////////////////////////////
 
 // Cluster descriptor
 const cluster_descriptor_t cluster_descriptor{/*id=*/6,
                                               /*is_msp=*/false,
                                               /*description=*/"onOff"};
+
+const commands_map_t on_off_commands_map =
+{
+    {setOffCmdDescriptor, static_cast<const CommandBase *const>(&setOffCommand)},
+};
 
 // OnOffCluster class
 class OnOffCluster : public Cluster
@@ -100,13 +113,13 @@ class OnOffCluster : public Cluster
       : Cluster(
             /*descriptor=*/cluster_descriptor,
             /*attribute_descriptors=*/
-            {onOffAttributeDescriptor, onTimeAttributeDescriptor,
-             offWaitTimeAttributeDescriptor},
-            /*commands_map=*/
             {
-                {setOffCmdDescriptor,
-                 static_cast<const CommandBase *const>(&setOffCommand)},
-            })
+              onOffAttributeDescriptor,
+              onTimeAttributeDescriptor,
+              offWaitTimeAttributeDescriptor
+            },
+            /*commands_map=*/ on_off_commands_map
+            )
   {
   }
 };

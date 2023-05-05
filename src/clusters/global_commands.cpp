@@ -47,7 +47,7 @@ ZclStatus configureReportingCommandExecuter(
   std::cout << "Configure reporting command" << std::endl;
 
   // Update the attribute reporting configuration
-  attribute.reporting_config = reporting_configuration;
+  attribute.set_reporting_config(reporting_configuration);
 
   return ZclStatus::success;
 }
@@ -61,8 +61,8 @@ ZclStatus reportAttributesCommandExecuter(const Cluster &  cluster,
 }
 
 ZclStatus discoverAttributesCommandExecuter(
-    const Cluster &                   cluster,
-    std::vector<AttributeDescriptor> &attribute_descriptors)
+    const Cluster &                      cluster,
+    std::vector<attribute_descriptor_t> &attribute_descriptors)
 {
   std::cout << "Discover attributes command" << std::endl;
 

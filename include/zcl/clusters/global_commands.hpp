@@ -53,7 +53,7 @@ const command_descriptor_t discover_attributes_command_descriptor{
     /*description*/ "Discover attributes"};
 ZclStatus discoverAttributesCommandExecuter(
     const Cluster &                   cluster,
-    std::vector<AttributeDescriptor> &attribute_descriptors);
+    std::vector<attribute_descriptor_t> &attribute_descriptors);
 const Command discoverAttributesCommand{
     /*exec=*/discoverAttributesCommandExecuter};
 

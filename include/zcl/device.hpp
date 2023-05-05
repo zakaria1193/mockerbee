@@ -11,24 +11,26 @@
 
 namespace zcl
 {
+
 using endpoint_id_t  = uint8_t;
 using cluster_list_t = std::vector<Cluster>;
 
 class Endpoint
 {
   cluster_list_t clusters;
+  endpoint_id_t ep_id;
 
  public:
-  Endpoint(endpoint_id_t id, cluster_list_t clusters)
-      : id(id), clusters(std::move(clusters)) {}
+  Endpoint(endpoint_id_t ep_id, cluster_list_t clusters)
+      : ep_id(ep_id), clusters(std::move(clusters)) {}
 
-  endpoint_id_t id;
+  [[nodiscard]] endpoint_id_t get_endpoint_id() const { return ep_id; }
 
   Cluster& get_cluster(const cluster_id_t cluster_id)
   {
     for (auto& cluster : clusters)
     {
-      if (cluster.descriptor.id == cluster_id)
+      if (cluster.get_descriptor().id == cluster_id)
       {
         return cluster;
       }
@@ -44,13 +46,13 @@ class Device
   endpoint_list_t endpoints;
 
  public:
-  Device(endpoint_list_t endpoints) : endpoints(std::move(endpoints)) {}
+  explicit Device(endpoint_list_t endpoints) : endpoints(std::move(endpoints)) {}
 
   Endpoint& get_endpoint(const endpoint_id_t ep_id)
   {
     for (auto& endpoint : endpoints)
     {
-      if (endpoint.id == ep_id)
+      if (endpoint.get_endpoint_id() == ep_id)
       {
         return endpoint;
       }
@@ -64,8 +66,8 @@ class Device
                                     const command_id_t  command_id,
                                     bool                is_common, Args... args)
   {
-    Endpoint ep      = get_endpoint(ep_id);
-    Cluster  cluster = ep.get_cluster(cluster_id);
+    Endpoint ept     = get_endpoint(ep_id);
+    Cluster  cluster = ept.get_cluster(cluster_id);
 
     return cluster.execute_cluster_command<Args...>(command_id, is_common,
                                                     args...);

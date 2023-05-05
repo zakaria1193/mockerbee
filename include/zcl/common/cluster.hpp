@@ -20,21 +20,23 @@ using cluster_id_t = uint16_t;
 struct cluster_descriptor_t
 {
   // Static attributes to fill from cluster descriptors
-  const cluster_id_t id;
-  const bool         is_msp;
-  const std::string  description;
+  cluster_id_t id;
+  bool         is_msp;
+  std::string  description;
 };
 
 class Cluster
 {
+  cluster_descriptor_t        descriptor;
   attributes_list_t           attributes;
-  const commands_map_t        commands_map;
+  const commands_map_t*       commands_map;
   static const commands_map_t common_commands_map;
 
   static attributes_list_t create_attributes(
-      const std::vector<AttributeDescriptor>& attribute_descriptors)
+      const std::vector<attribute_descriptor_t>& attribute_descriptors)
   {
     std::vector<Attribute> attributes;
+    attributes.reserve(attribute_descriptors.size());
     for (const auto& attr_desc : attribute_descriptors)
     {
       attributes.emplace_back(attr_desc);
@@ -44,31 +46,29 @@ class Cluster
 
  public:
   // Constructor
-  Cluster(cluster_descriptor_t                    descriptor,
-          const std::vector<AttributeDescriptor>& attribute_descriptors,
-          const commands_map_t                    commands_map)
+  Cluster(cluster_descriptor_t                       descriptor,
+          const std::vector<attribute_descriptor_t>& attribute_descriptors,
+          const commands_map_t&                      commands_map)
       : descriptor(std::move(descriptor)),
         attributes(create_attributes(attribute_descriptors)),
-        commands_map(commands_map)
+        commands_map(&commands_map)
   {
   }
 
   // Method to get the list of attributes
-  const attributes_list_t& get_attributes() const { return attributes; }
+  [[nodiscard]] const attributes_list_t& get_attributes() const { return attributes; }
 
   // Method to get the list of commands
-  const commands_map_t& get_commands() const { return commands_map; }
+  [[nodiscard]] const commands_map_t* get_commands() const { return commands_map; }
 
-  // Cluster descriptor
-  const cluster_descriptor_t descriptor;
+  // Method to get the cluster descriptor
+  [[nodiscard]] const cluster_descriptor_t& get_descriptor() const { return descriptor; }
 
-  // Generir attribute value
-
-  const Attribute& get_attribute_const(const attr_id_t id) const
+  [[nodiscard]] const Attribute& get_attribute_const(const attr_id_t attr_id) const
   {
     for (const auto& attr : attributes)
     {
-      if (attr.descriptor.id == id)
+      if (attr.get_id() == attr_id)
       {
         return attr;
       }
@@ -76,11 +76,11 @@ class Cluster
     throw std::runtime_error("Attribute not found");
   }
 
-  Attribute& get_attribute_not_const(const attr_id_t id)
+  Attribute& get_attribute_not_const(const attr_id_t attr_id)
   {
     for (auto& attr : attributes)
     {
-      if (attr.descriptor.id == id)
+      if (attr.get_id() == attr_id)
       {
         return attr;
       }
@@ -88,24 +88,25 @@ class Cluster
     throw std::runtime_error("Attribute not found");
   }
 
-  attr_value_t get_attribute_value(const attr_id_t id) const
+  [[nodiscard]] attr_value_t get_attribute_value(const attr_id_t attr_id) const
   {
-    const Attribute& attr = get_attribute_const(id);
+    const Attribute& attr = get_attribute_const(attr_id);
 
     return attr.get_value();
   }
 
   // Generic attribute setter
-  void set_attribute_value(const attr_id_t id, const attr_value_t& value)
+  void set_attribute_value(const attr_id_t attr_id, const attr_value_t& value)
   {
-    Attribute& attr = get_attribute_not_const(id);
+    Attribute& attr = get_attribute_not_const(attr_id);
 
     attr.set_value(value);
   }
 
   // Generic command executer
   template <typename... Args>
-  ZclStatus execute_cluster_command(command_id_t id, const bool is_common,
+  ZclStatus execute_cluster_command(command_id_t cmd_id,
+                                    const bool is_common,
                                     Args... args)
   {
     const commands_map_t* target_commands_map = nullptr;
@@ -116,12 +117,12 @@ class Cluster
     }
     else
     {
-      target_commands_map = &commands_map;
+      target_commands_map = commands_map;
     }
 
     for (const auto& [descriptor, gen_cmd_ptr] : *target_commands_map)
     {
-      if (descriptor.id == id && descriptor.is_common == is_common)
+      if (descriptor.id == cmd_id && descriptor.is_common == is_common)
       {
         if (gen_cmd_ptr == nullptr)
         {

@@ -1,6 +1,5 @@
 ---
-# Checks:          'clang-diagnostic-*,clang-analyzer-*,cppcoreguidelines-*,modernize-*,-modernize-use-trailing-return-type, bugprone-*'
-Checks: '*'
+Checks:          'clang-diagnostic-*, clang-analyzer-*, cppcoreguidelines-*, modernize-*, -modernize-use-trailing-return-type, bugprone-*, performance-*, portability-*, readability-*, google-*, cert-*, misc-*, -bugprone-easily-swappable-parameters'
 WarningsAsErrors: true
 HeaderFilterRegex: '.*'
 AnalyzeTemporaryDtors: false
