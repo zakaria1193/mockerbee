@@ -5,7 +5,7 @@ namespace zcl::on_off_cluster
 {
 ZclStatus setOffExecuter(Cluster& cluster)
 {
-  std::cout << "setOffExecuter" << std::endl;
+  std::cout << "setOffExecuter" << '\n';
   cluster.set_attribute_value(onOffAttributeDescriptor.id, true);
 
   return ZclStatus::success;
@@ -20,14 +20,14 @@ ZclStatus setOnExecuter(Cluster& cluster)
 
 ZclStatus toggleExecuter(Cluster& cluster)
 {
-  std::cout << "toggleExecuter" << std::endl;
+  std::cout << "toggleExecuter" << '\n';
 
   return ZclStatus::not_implemented;
 }
 
 ZclStatus onWithRecallGlobalSceneExecuter(Cluster& cluster)
 {
-  std::cout << "onWithRecallGlobalSceneExecuter" << std::endl;
+  std::cout << "onWithRecallGlobalSceneExecuter" << '\n';
 
   return ZclStatus::not_implemented;
 }
@@ -35,7 +35,7 @@ ZclStatus onWithRecallGlobalSceneExecuter(Cluster& cluster)
 ZclStatus offWithEffectExecuter(Cluster& cluster, uint8_t effectIdentifier,
                                 uint16_t effectVariant)
 {
-  std::cout << "offWithEffectExecuter" << std::endl;
+  std::cout << "offWithEffectExecuter" << '\n';
 
   return ZclStatus::not_implemented;
 }
@@ -43,7 +43,7 @@ ZclStatus offWithEffectExecuter(Cluster& cluster, uint8_t effectIdentifier,
 ZclStatus onWithTimedOffExecuter(Cluster& cluster, uint8_t onOffControl,
                                  uint16_t onTime, uint16_t offWaitTime)
 {
-  std::cout << "onWithTimedOffExecuter" << std::endl;
+  std::cout << "onWithTimedOffExecuter" << '\n';
 
   return ZclStatus::not_implemented;
 }

@@ -8,7 +8,7 @@ int main(int argc, char* argv[])
 {
   zcl::OnOffDevice device;
 
-  std::cout << "Running..." << std::endl;
+  std::cout << "Running..." << '\n';
 
   device.execute_cluster_command(
       1, zcl::on_off_cluster::cluster_descriptor.id,
@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
       1, zcl::on_off_cluster::cluster_descriptor.id,
       zcl::read_attribute_command_descriptor.get_id(), true, read_attr);
 
-  std::cout << " --- Exiting --- " << std::endl;
+  std::cout << " --- Exiting --- " << '\n';
 
   return 0;
 }

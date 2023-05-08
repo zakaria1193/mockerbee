@@ -21,7 +21,7 @@ ZclStatus readAttributeCommandExecuter(const Cluster&   cluster,
 {
   const Attribute& attribute = cluster.get_attribute_const(attribute_id);
 
-  std::cout << "Read attribute command" << std::endl;
+  std::cout << "Read attribute command" << '\n';
 
   value = attribute.read();
 
@@ -32,7 +32,7 @@ ZclStatus writeAttributeCommandExecuter(Cluster&            cluster,
                                         const attr_id_t&    attribute_id,
                                         const attr_value_t& value)
 {
-  std::cout << "Write attribute command" << std::endl;
+  std::cout << "Write attribute command" << '\n';
 
   // Update the attribute value
   Attribute& attribute = cluster.get_attribute_not_const(attribute_id);
@@ -47,7 +47,7 @@ ZclStatus configureReportingCommandExecuter(
 {
   Attribute attribute = cluster.get_attribute_not_const(attribute_id);
 
-  std::cout << "Configure reporting command" << std::endl;
+  std::cout << "Configure reporting command" << '\n';
 
   // Update the attribute reporting configuration
   attribute.set_reporting_config(reporting_configuration);
@@ -58,7 +58,7 @@ ZclStatus configureReportingCommandExecuter(
 ZclStatus reportAttributesCommandExecuter(const Cluster&   cluster,
                                           const Attribute& attribute)
 {
-  std::cout << "Report attributes command" << std::endl;
+  std::cout << "Report attributes command" << '\n';
 
   return ZclStatus::success;
 }
@@ -67,7 +67,7 @@ ZclStatus discoverAttributesCommandExecuter(
     const Cluster&                       cluster,
     std::vector<attribute_descriptor_t>& attribute_descriptors)
 {
-  std::cout << "Discover attributes command" << std::endl;
+  std::cout << "Discover attributes command" << '\n';
 
   return ZclStatus::success;
 }

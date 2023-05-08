@@ -69,11 +69,11 @@ class Command : public CommandBase
   {
     if (exec_ == nullptr)
     {
-      std::cout << "Command operator() exec_ == nullptr" << std::endl;
+      std::cout << "Command operator() exec_ == nullptr" << '\n';
       return ZclStatus::null_pointer;
     }
 
-    std::cout << "Command operator()" << exec_ << std::endl;
+    std::cout << "Command operator()" << exec_ << '\n';
     return exec_(args...);
   }
 };
