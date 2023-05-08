@@ -21,9 +21,9 @@ const CommandDescriptor read_attribute_command_descriptor{
     /*is_common*/ true,
     /*is_mandatory*/ true,
     /*description*/ "Read attribute"};
-ZclStatus     readAttributeCommandExecuter(const Cluster & cluster,
-                                           const attr_id_t attribute_id,
-                                           attr_value_t &  value);
+ZclStatus     readAttributeCommandExecuter(const Cluster &  cluster,
+                                           const attr_id_t &attribute_id,
+                                           attr_value_t &   value);
 const Command readAttributeCommand{/*exec=*/readAttributeCommandExecuter};
 
 // Write attribute command
@@ -33,7 +33,7 @@ const CommandDescriptor write_attribute_command_descriptor{
     /*is_mandatory*/ true,
     /*description*/ "Write attribute"};
 ZclStatus     writeAttributeCommandExecuter(Cluster &           cluster,
-                                            const attr_id_t     attribute_id,
+                                            const attr_id_t &   attribute_id,
                                             const attr_value_t &value);
 const Command writeAttributeCommand{/*exec=*/writeAttributeCommandExecuter};
 
@@ -44,7 +44,7 @@ const CommandDescriptor configure_reporting_command_descriptor{
     /*is_mandatory*/ true,
     /*description*/ "Configure reporting"};
 ZclStatus configureReportingCommandExecuter(
-    Cluster &cluster, const attr_id_t attribute_id,
+    Cluster &cluster, const attr_id_t &attribute_id,
     const ReportingConfiguration &reporting_configuration);
 const Command configureReportingCommand{
     /*exec=*/configureReportingCommandExecuter};

@@ -15,9 +15,9 @@ const commands_map_t Cluster::common_commands_map = {
     {report_attributes_command_descriptor,
      static_cast<const CommandBase *>(&reportAttributesCommand)}};
 
-ZclStatus readAttributeCommandExecuter(const Cluster & cluster,
-                                       const attr_id_t attribute_id,
-                                       attr_value_t &  value)
+ZclStatus readAttributeCommandExecuter(const Cluster &  cluster,
+                                       const attr_id_t &attribute_id,
+                                       attr_value_t &   value)
 {
   const Attribute &attribute = cluster.get_attribute_const(attribute_id);
 
@@ -29,7 +29,7 @@ ZclStatus readAttributeCommandExecuter(const Cluster & cluster,
 }
 
 ZclStatus writeAttributeCommandExecuter(Cluster &           cluster,
-                                        const attr_id_t     attribute_id,
+                                        const attr_id_t &   attribute_id,
                                         const attr_value_t &value)
 {
   std::cout << "Write attribute command" << std::endl;
@@ -41,7 +41,7 @@ ZclStatus writeAttributeCommandExecuter(Cluster &           cluster,
 }
 
 ZclStatus configureReportingCommandExecuter(
-    Cluster &cluster, const attr_id_t attribute_id,
+    Cluster &cluster, const attr_id_t &attribute_id,
     const ReportingConfiguration &reporting_configuration)
 {
   Attribute attribute = cluster.get_attribute_not_const(attribute_id);
