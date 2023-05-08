@@ -50,10 +50,10 @@ class CommandBase
   virtual ~CommandBase() = default;
 
   // cppcoreguidelines-special-member-functions implies these definitions:
-  CommandBase(const CommandBase&) = delete;
+  CommandBase(const CommandBase&)            = delete;
   CommandBase& operator=(const CommandBase&) = delete;
   CommandBase(CommandBase&&)                 = delete;
-  CommandBase& operator=(CommandBase&&) = delete;
+  CommandBase& operator=(CommandBase&&)      = delete;
 };
 
 template <typename... Args>
