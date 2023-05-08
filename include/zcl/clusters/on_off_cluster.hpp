@@ -39,7 +39,7 @@ const attribute_descriptor_t offWaitTimeAttributeDescriptor = {
 //////////////////////////////
 
 // setOff command
-const CommandDescriptor setOffCmdDescriptor{/*id=*/0,
+const CommandDescriptor setOffCmdDescriptor{/*cmd_id=*/0,
                                             /*is_common=*/false,
                                             /*is_mandatory=*/true,
                                             /*description=*/"setOff"};
@@ -47,7 +47,7 @@ ZclStatus               setOffExecuter(Cluster &cluster);
 const Command           setOffCommand{/*exec=*/setOffExecuter};
 
 // setOn command
-const CommandDescriptor setOnCmdDescriptor{/*id=*/1,
+const CommandDescriptor setOnCmdDescriptor{/*cmd_id=*/1,
                                            /*is_common=*/false,
                                            /*is_mandatory=*/true,
                                            /*description=*/"setOn"};
@@ -55,7 +55,7 @@ ZclStatus               setOnExecuter(Cluster &cluster);
 const Command           setOnCommand{/*exec=*/setOnExecuter};
 
 // toggle command
-const CommandDescriptor toggleCmdDescriptor{/*id=*/2,
+const CommandDescriptor toggleCmdDescriptor{/*cmd_id=*/2,
                                             /*is_common=*/false,
                                             /*is_mandatory=*/true,
                                             /*description=*/"toggle"};
@@ -64,7 +64,7 @@ const Command           toggleCommand{/*exec=*/toggleExecuter};
 
 // offWithEffect command
 const CommandDescriptor offWithEffectCmdDescriptor{
-    /*id=*/64,
+    /*cmd_id=*/64,
     /*is_common=*/false,
     /*is_mandatory=*/false,
     /*description=*/"offWithEffect"};
@@ -74,7 +74,7 @@ const Command offWithEffectCommand{/*exec=*/offWithEffectExecuter};
 
 // onWithRecallGlobalScene command
 const CommandDescriptor onWithRecallGlobalSceneCmdDescriptor{
-    /*id=*/65,
+    /*cmd_id=*/65,
     /*is_common=*/false,
     /*is_mandatory=*/false,
     /*description=*/"onWithRecallGlobalScene"};
@@ -84,7 +84,7 @@ const Command onWithRecallGlobalSceneCommand{
 
 // onWithTimedOff command
 const CommandDescriptor onWithTimedOffCmdDescriptor{
-    /*id=*/66,
+    /*cmd_id=*/66,
     /*is_common=*/false,
     /*is_mandatory=*/false,
     /*description=*/"onWithTimedOff"};
