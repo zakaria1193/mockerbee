@@ -13,5 +13,6 @@ AlignAfterOpenBracket: 'true'
 Language: Cpp
 TabWidth: '2'
 UseTab: Never
-
+PointerAlignment: Middle
+ReferenceAlignment: Middle
 ...
