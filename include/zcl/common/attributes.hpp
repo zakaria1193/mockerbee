@@ -35,7 +35,6 @@ class Attribute
   ReportingConfiguration reporting_config;
 
  public:
-
   // Method to retrieve the attribute value
   [[nodiscard]] const auto& get_value() const
   {
@@ -75,11 +74,15 @@ class Attribute
 
   // Constructor
   explicit Attribute(attribute_descriptor_t descriptor)
-      : descriptor(std::move(descriptor)) {}
+      : descriptor(std::move(descriptor))
+  {
+  }
 
   // Constructor with default value
   Attribute(attribute_descriptor_t descriptor, attr_value_t value)
-      : descriptor(std::move(descriptor)), value(std::move(value)) {}
+      : descriptor(std::move(descriptor)), value(std::move(value))
+  {
+  }
 
   // Default constructor
   Attribute() = default;

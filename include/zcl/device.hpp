@@ -11,18 +11,19 @@
 
 namespace zcl
 {
-
 using endpoint_id_t  = uint8_t;
 using cluster_list_t = std::vector<Cluster>;
 
 class Endpoint
 {
   cluster_list_t clusters;
-  endpoint_id_t ep_id;
+  endpoint_id_t  ep_id;
 
  public:
   Endpoint(endpoint_id_t ep_id, cluster_list_t clusters)
-      : ep_id(ep_id), clusters(std::move(clusters)) {}
+      : ep_id(ep_id), clusters(std::move(clusters))
+  {
+  }
 
   [[nodiscard]] endpoint_id_t get_endpoint_id() const { return ep_id; }
 
@@ -46,7 +47,9 @@ class Device
   endpoint_list_t endpoints;
 
  public:
-  explicit Device(endpoint_list_t endpoints) : endpoints(std::move(endpoints)) {}
+  explicit Device(endpoint_list_t endpoints) : endpoints(std::move(endpoints))
+  {
+  }
 
   Endpoint& get_endpoint(const endpoint_id_t ep_id)
   {

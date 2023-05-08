@@ -19,7 +19,7 @@ ZclStatus readAttributeCommandExecuter(const Cluster & cluster,
                                        const attr_id_t attribute_id,
                                        attr_value_t &  value)
 {
-  const Attribute& attribute = cluster.get_attribute_const(attribute_id);
+  const Attribute &attribute = cluster.get_attribute_const(attribute_id);
 
   std::cout << "Read attribute command" << std::endl;
 

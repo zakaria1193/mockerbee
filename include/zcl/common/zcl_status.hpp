@@ -10,6 +10,6 @@ enum class ZclStatus
   null_pointer    = -2,
   not_implemented = -3,
 };
-} // namespace zcl
+}  // namespace zcl
 
 #endif  // ZCL_STATUS_HPP

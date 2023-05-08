@@ -56,15 +56,25 @@ class Cluster
   }
 
   // Method to get the list of attributes
-  [[nodiscard]] const attributes_list_t& get_attributes() const { return attributes; }
+  [[nodiscard]] const attributes_list_t& get_attributes() const
+  {
+    return attributes;
+  }
 
   // Method to get the list of commands
-  [[nodiscard]] const commands_map_t* get_commands() const { return commands_map; }
+  [[nodiscard]] const commands_map_t* get_commands() const
+  {
+    return commands_map;
+  }
 
   // Method to get the cluster descriptor
-  [[nodiscard]] const cluster_descriptor_t& get_descriptor() const { return descriptor; }
+  [[nodiscard]] const cluster_descriptor_t& get_descriptor() const
+  {
+    return descriptor;
+  }
 
-  [[nodiscard]] const Attribute& get_attribute_const(const attr_id_t attr_id) const
+  [[nodiscard]] const Attribute& get_attribute_const(
+      const attr_id_t attr_id) const
   {
     for (const auto& attr : attributes)
     {
@@ -105,8 +115,7 @@ class Cluster
 
   // Generic command executer
   template <typename... Args>
-  ZclStatus execute_cluster_command(command_id_t cmd_id,
-                                    const bool is_common,
+  ZclStatus execute_cluster_command(command_id_t cmd_id, const bool is_common,
                                     Args... args)
   {
     const commands_map_t* target_commands_map = nullptr;
