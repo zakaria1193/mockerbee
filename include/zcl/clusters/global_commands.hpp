@@ -21,9 +21,9 @@ const CommandDescriptor read_attribute_command_descriptor{
     /*is_common*/ true,
     /*is_mandatory*/ true,
     /*description*/ "Read attribute"};
-ZclStatus     readAttributeCommandExecuter(const Cluster &  cluster,
+ZclStatus     readAttributeCommandExecuter(const Cluster   &cluster,
                                            const attr_id_t &attribute_id,
-                                           attr_value_t &   value);
+                                           attr_value_t    &value);
 const Command readAttributeCommand{/*exec=*/readAttributeCommandExecuter};
 
 // Write attribute command
@@ -32,8 +32,8 @@ const CommandDescriptor write_attribute_command_descriptor{
     /*is_common*/ true,
     /*is_mandatory*/ true,
     /*description*/ "Write attribute"};
-ZclStatus     writeAttributeCommandExecuter(Cluster &           cluster,
-                                            const attr_id_t &   attribute_id,
+ZclStatus     writeAttributeCommandExecuter(Cluster            &cluster,
+                                            const attr_id_t    &attribute_id,
                                             const attr_value_t &value);
 const Command writeAttributeCommand{/*exec=*/writeAttributeCommandExecuter};
 
@@ -56,7 +56,7 @@ const CommandDescriptor discover_attributes_command_descriptor{
     /*is_mandatory*/ true,
     /*description*/ "Discover attributes"};
 ZclStatus discoverAttributesCommandExecuter(
-    const Cluster &                      cluster,
+    const Cluster                       &cluster,
     std::vector<attribute_descriptor_t> &attribute_descriptors);
 const Command discoverAttributesCommand{
     /*exec=*/discoverAttributesCommandExecuter};
@@ -68,7 +68,7 @@ const CommandDescriptor report_attributes_command_descriptor{
     /*is_common*/ true,
     /*is_mandatory*/ true,
     /*description*/ "Report attributes"};
-ZclStatus     reportAttributesCommandExecuter(const Cluster &  cluster,
+ZclStatus     reportAttributesCommandExecuter(const Cluster   &cluster,
                                               const Attribute &attribute);
 const Command reportAttributesCommand{/*exec=*/reportAttributesCommandExecuter};
 
