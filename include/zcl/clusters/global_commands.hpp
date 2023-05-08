@@ -44,7 +44,8 @@ const command_descriptor_t configure_reporting_command_descriptor{
     /*is_mandatory*/ true,
     /*description*/ "Configure reporting"};
 ZclStatus configureReportingCommandExecuter(
-    Cluster &cluster, const attr_id_t attribute_id,
+    Cluster &cluster,
+    const attr_id_t attribute_id,
     const ReportingConfiguration &reporting_configuration);
 const Command configureReportingCommand{
     /*exec=*/configureReportingCommandExecuter};
