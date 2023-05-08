@@ -15,6 +15,7 @@ namespace zcl
 // 2. Command executer
 // 3. Command object
 
+// Read attribute command
 const command_descriptor_t read_attribute_command_descriptor{
     /*id*/ 0x00,
     /*is_common*/ true,
@@ -25,6 +26,7 @@ ZclStatus     readAttributeCommandExecuter(const Cluster & cluster,
                                            attr_value_t &  value);
 const Command readAttributeCommand{/*exec=*/readAttributeCommandExecuter};
 
+// Write attribute command
 const command_descriptor_t write_attribute_command_descriptor{
     /*id*/ 0x02,
     /*is_common*/ true,
@@ -35,6 +37,7 @@ ZclStatus     writeAttributeCommandExecuter(Cluster &           cluster,
                                             const attr_value_t &value);
 const Command writeAttributeCommand{/*exec=*/writeAttributeCommandExecuter};
 
+// Configure reporting command
 const command_descriptor_t configure_reporting_command_descriptor{
     /*id*/ 0x06,
     /*is_common*/ true,
@@ -46,6 +49,7 @@ ZclStatus configureReportingCommandExecuter(
 const Command configureReportingCommand{
     /*exec=*/configureReportingCommandExecuter};
 
+// Discover attributes command
 const command_descriptor_t discover_attributes_command_descriptor{
     /*id*/ 0x0C,
     /*is_common*/ true,
