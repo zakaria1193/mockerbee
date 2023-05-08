@@ -4,7 +4,7 @@
 #include <zcl/device.hpp>
 
 // Do not optimize
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
   zcl::OnOffDevice device;
 
