@@ -46,16 +46,24 @@ class CommandDescriptor
 class CommandBase
 {
  public:
+  CommandBase() = default;
   virtual ~CommandBase() = default;
+
+  // cppcoreguidelines-special-member-functions implies these definitions:
+  CommandBase(const CommandBase&) = delete;
+  CommandBase& operator=(const CommandBase&) = delete;
+  CommandBase(CommandBase&&)                 = delete;
+  CommandBase& operator=(CommandBase&&) = delete;
 };
 
 template <typename... Args>
 class Command : public CommandBase
 {
   using exec_t = ZclStatus (*)(Args...);
+  exec_t exec_;
 
  public:
-  Command(exec_t exec) : exec_(exec) {}
+  explicit Command(exec_t exec) : exec_(exec) {}
 
   ZclStatus operator()(Args... args) const
   {
@@ -68,8 +76,6 @@ class Command : public CommandBase
     std::cout << "Command operator()" << exec_ << std::endl;
     return exec_(args...);
   }
-
-  exec_t exec_;
 };
 
 using commands_map_t = std::map<CommandDescriptor, const CommandBase* const>;
