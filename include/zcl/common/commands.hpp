@@ -46,7 +46,7 @@ class CommandDescriptor
 class CommandBase
 {
  public:
-  CommandBase() = default;
+  CommandBase()          = default;
   virtual ~CommandBase() = default;
 
   // cppcoreguidelines-special-member-functions implies these definitions:
