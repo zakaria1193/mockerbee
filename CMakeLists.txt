@@ -113,8 +113,6 @@ endif()
 # using --version
 find_program(CLANG_FORMAT "clang-format-17")
 
-
-
 if(CLANG_FORMAT)
   message(STATUS "clang-format found: ${CLANG_FORMAT}")
   # Add a custom target to run Clang-Format on all relevant files
