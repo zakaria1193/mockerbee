@@ -16,7 +16,7 @@ namespace zcl
 // 3. Command object
 
 // Read attribute command
-const command_descriptor_t read_attribute_command_descriptor{
+const CommandDescriptor read_attribute_command_descriptor{
     /*id*/ 0x00,
     /*is_common*/ true,
     /*is_mandatory*/ true,
@@ -27,7 +27,7 @@ ZclStatus     readAttributeCommandExecuter(const Cluster & cluster,
 const Command readAttributeCommand{/*exec=*/readAttributeCommandExecuter};
 
 // Write attribute command
-const command_descriptor_t write_attribute_command_descriptor{
+const CommandDescriptor write_attribute_command_descriptor{
     /*id*/ 0x02,
     /*is_common*/ true,
     /*is_mandatory*/ true,
@@ -38,33 +38,32 @@ ZclStatus     writeAttributeCommandExecuter(Cluster &           cluster,
 const Command writeAttributeCommand{/*exec=*/writeAttributeCommandExecuter};
 
 // Configure reporting command
-const command_descriptor_t configure_reporting_command_descriptor{
+const CommandDescriptor configure_reporting_command_descriptor{
     /*id*/ 0x06,
     /*is_common*/ true,
     /*is_mandatory*/ true,
     /*description*/ "Configure reporting"};
 ZclStatus configureReportingCommandExecuter(
-    Cluster &cluster,
-    const attr_id_t attribute_id,
+    Cluster &cluster, const attr_id_t attribute_id,
     const ReportingConfiguration &reporting_configuration);
 const Command configureReportingCommand{
     /*exec=*/configureReportingCommandExecuter};
 
 // Discover attributes command
-const command_descriptor_t discover_attributes_command_descriptor{
+const CommandDescriptor discover_attributes_command_descriptor{
     /*id*/ 0x0C,
     /*is_common*/ true,
     /*is_mandatory*/ true,
     /*description*/ "Discover attributes"};
 ZclStatus discoverAttributesCommandExecuter(
-    const Cluster &                   cluster,
+    const Cluster &                      cluster,
     std::vector<attribute_descriptor_t> &attribute_descriptors);
 const Command discoverAttributesCommand{
     /*exec=*/discoverAttributesCommandExecuter};
 
 // FIXME This command requires a special handling
 // since it is send by the device
-const command_descriptor_t report_attributes_command_descriptor{
+const CommandDescriptor report_attributes_command_descriptor{
     /*id*/ 0x0A,
     /*is_common*/ true,
     /*is_mandatory*/ true,

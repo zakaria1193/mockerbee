@@ -122,7 +122,7 @@ class Cluster
 
     for (const auto& [descriptor, gen_cmd_ptr] : *target_commands_map)
     {
-      if (descriptor.id == cmd_id && descriptor.is_common == is_common)
+      if (descriptor.check_match(cmd_id, is_common))
       {
         if (gen_cmd_ptr == nullptr)
         {

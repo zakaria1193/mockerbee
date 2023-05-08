@@ -19,12 +19,12 @@ using attr_value_t = std::variant<int8_t, uint8_t, int16_t, uint16_t, int32_t,
 // write AttributeDescriptor as struct
 struct attribute_descriptor_t
 {
-  attr_id_t id{0};
-  bool is_msp{false};
-  bool is_reportable{false};
-  bool is_readable{false};
-  bool is_writable{false};
-  bool is_mandatory{false};
+  attr_id_t   id{0};
+  bool        is_msp{false};
+  bool        is_reportable{false};
+  bool        is_readable{false};
+  bool        is_writable{false};
+  bool        is_mandatory{false};
   std::string description;
 };
 

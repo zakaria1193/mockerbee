@@ -4,6 +4,7 @@
 #include <functional>
 #include <map>
 #include <string>
+#include <utility>
 
 #include "iostream"
 #include "zcl/common/zcl_status.hpp"
@@ -12,19 +13,34 @@ namespace zcl
 {
 using command_id_t = uint8_t;
 
-struct command_descriptor_t
+class CommandDescriptor
 {
   // Static attributes to fill from cluster descriptors
-  const command_id_t id;
-  const bool         is_common;
-  const bool         is_mandatory;
-  const std::string  description;
+  command_id_t id;
+  bool         is_common;
+  bool         is_mandatory;
+  std::string  description;
 
+ public:
   // Custom comparison operator for command_descriptor_t as a key in std::map
-  bool operator<(const command_descriptor_t& other) const
+  bool operator<(const CommandDescriptor& other) const { return id < other.id; }
+
+  CommandDescriptor(command_id_t cmd_id, bool is_common, bool is_mandatory,
+                    std::string description)
+      : id(cmd_id),
+        is_common(is_common),
+        is_mandatory(is_mandatory),
+        description(std::move(description))
   {
-    return id < other.id;
   }
+
+  [[nodiscard]] bool check_match(command_id_t cmd_id, bool is_common) const
+  {
+    return id == cmd_id && this->is_common == is_common;
+  }
+
+  // ID getter
+  [[nodiscard]] command_id_t get_id() const { return id; }
 };
 
 class CommandBase
@@ -56,7 +72,7 @@ class Command : public CommandBase
   exec_t exec_;
 };
 
-using commands_map_t = std::map<command_descriptor_t, const CommandBase* const>;
+using commands_map_t = std::map<CommandDescriptor, const CommandBase* const>;
 }  // namespace zcl
 
 #endif  // ZCL_COMMON_COMMANDS_HPP
