@@ -23,7 +23,7 @@ ZclStatus readAttributeCommandExecuter(const Cluster&   cluster,
 
   std::cout << "Read attribute command" << std::endl;
 
-  value = attribute.get_value();
+  value = attribute.read();
 
   return ZclStatus::success;
 }
@@ -35,7 +35,8 @@ ZclStatus writeAttributeCommandExecuter(Cluster&            cluster,
   std::cout << "Write attribute command" << std::endl;
 
   // Update the attribute value
-  cluster.set_attribute_value(attribute_id, value);
+  Attribute& attribute = cluster.get_attribute_not_const(attribute_id);
+  attribute.write(value);
 
   return ZclStatus::success;
 }

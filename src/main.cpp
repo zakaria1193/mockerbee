@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
       1, zcl::on_off_cluster::cluster_descriptor.id,
       zcl::on_off_cluster::setOffCmdDescriptor.get_id(), false);
 
-  zcl::Attribute read_attr;
+  const zcl::Attribute read_attr;
 
   device.execute_cluster_command(
       1, zcl::on_off_cluster::cluster_descriptor.id,

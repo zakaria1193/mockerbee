@@ -38,23 +38,33 @@ class Attribute
   // Method to retrieve the attribute value
   [[nodiscard]] const auto& get_value() const
   {
-    if (descriptor.is_readable)
-    {
-      return value;
-    }
-
-    throw std::runtime_error("Attribute is not readable");
+    return value;
   }
 
   // Method to set the attribute value
   void set_value(const attr_value_t& value)
   {
-    if (descriptor.is_writable)
-    {
-      this->value = value;
-    }
+    this->value = value;
+  }
 
-    throw std::runtime_error("Attribute is not writable");
+  // Attribute read
+  [[nodiscard]] auto read() const
+  {
+    if (!descriptor.is_readable)
+    {
+      throw std::runtime_error("Attribute is not readable");
+    }
+    return value;
+  }
+
+  // Attribute write
+  void write(const attr_value_t& value)
+  {
+    if (!descriptor.is_writable)
+    {
+      throw std::runtime_error("Attribute is not writable");
+    }
+    this->value = value;
   }
 
   // Reporting configuration getter
