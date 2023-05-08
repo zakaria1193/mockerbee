@@ -13,6 +13,8 @@ AlignAfterOpenBracket: 'true'
 Language: Cpp
 TabWidth: '2'
 UseTab: Never
+
+DerivePointerAlignment: false
 PointerAlignment: Left
-ReferenceAlignment: Left
+# ReferenceAlignment inherited from PointerAlignment
 ...

@@ -21,9 +21,9 @@ const CommandDescriptor read_attribute_command_descriptor{
     /*is_common*/ true,
     /*is_mandatory*/ true,
     /*description*/ "Read attribute"};
-ZclStatus     readAttributeCommandExecuter(const Cluster   &cluster,
-                                           const attr_id_t &attribute_id,
-                                           attr_value_t    &value);
+ZclStatus     readAttributeCommandExecuter(const Cluster&   cluster,
+                                           const attr_id_t& attribute_id,
+                                           attr_value_t&    value);
 const Command readAttributeCommand{/*exec=*/readAttributeCommandExecuter};
 
 // Write attribute command
@@ -32,9 +32,9 @@ const CommandDescriptor write_attribute_command_descriptor{
     /*is_common*/ true,
     /*is_mandatory*/ true,
     /*description*/ "Write attribute"};
-ZclStatus     writeAttributeCommandExecuter(Cluster            &cluster,
-                                            const attr_id_t    &attribute_id,
-                                            const attr_value_t &value);
+ZclStatus     writeAttributeCommandExecuter(Cluster&            cluster,
+                                            const attr_id_t&    attribute_id,
+                                            const attr_value_t& value);
 const Command writeAttributeCommand{/*exec=*/writeAttributeCommandExecuter};
 
 // Configure reporting command
@@ -44,8 +44,8 @@ const CommandDescriptor configure_reporting_command_descriptor{
     /*is_mandatory*/ true,
     /*description*/ "Configure reporting"};
 ZclStatus configureReportingCommandExecuter(
-    Cluster &cluster, const attr_id_t &attribute_id,
-    const ReportingConfiguration &reporting_configuration);
+    Cluster& cluster, const attr_id_t& attribute_id,
+    const ReportingConfiguration& reporting_configuration);
 const Command configureReportingCommand{
     /*exec=*/configureReportingCommandExecuter};
 
@@ -56,8 +56,8 @@ const CommandDescriptor discover_attributes_command_descriptor{
     /*is_mandatory*/ true,
     /*description*/ "Discover attributes"};
 ZclStatus discoverAttributesCommandExecuter(
-    const Cluster                       &cluster,
-    std::vector<attribute_descriptor_t> &attribute_descriptors);
+    const Cluster&                       cluster,
+    std::vector<attribute_descriptor_t>& attribute_descriptors);
 const Command discoverAttributesCommand{
     /*exec=*/discoverAttributesCommandExecuter};
 
@@ -68,8 +68,8 @@ const CommandDescriptor report_attributes_command_descriptor{
     /*is_common*/ true,
     /*is_mandatory*/ true,
     /*description*/ "Report attributes"};
-ZclStatus     reportAttributesCommandExecuter(const Cluster   &cluster,
-                                              const Attribute &attribute);
+ZclStatus     reportAttributesCommandExecuter(const Cluster&   cluster,
+                                              const Attribute& attribute);
 const Command reportAttributesCommand{/*exec=*/reportAttributesCommandExecuter};
 
 }  // namespace zcl
