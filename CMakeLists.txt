@@ -15,6 +15,23 @@ set(CMAKE_VERBOSE_MAKEFILE OFF)
 set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 ############################################################
+# Build types definitions
+############################################################
+if(GENERATOR_IS_MULTI_CONFIG)
+# Necessary for multi-configuration generators such as Ninja Multi-Config
+  set(CMAKE_CONFIGURATION_TYPES "DEBUG;RELEASE")
+  set(CMAKE_DEFAULT_BUILD_TYPE "DEBUG")
+else()
+# Only relevant for Makefile/Ninja generators (And other single-configuration generators)
+# Manually set the default build type to Debug
+    if(NOT CMAKE_BUILD_TYPE)
+        set(CMAKE_BUILD_TYPE DEBUG)
+    else()
+        string(TOUPPER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE)
+    endif()
+endif()
+
+############################################################
 # Set compiler options
 ############################################################
 # Set the C++ standard to use
@@ -35,16 +52,6 @@ set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS}")
 
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Map=output.map")
 
-# Only relevant for Makefile generators (And other single-configuration generators)
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE DEBUG)
-else()
-    string(TOUPPER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE)
-endif()
-
-# Necessary for multi-configuration generators such as Ninja Multi-Config
-set(CMAKE_CONFIGURATION_TYPES "DEBUG;RELEASE")
-set(CMAKE_DEFAULT_BUILD_TYPE "DEBUG")
 
 # Debugging flags
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} \
