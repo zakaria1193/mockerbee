@@ -36,16 +36,10 @@ class Attribute
 
  public:
   // Method to retrieve the attribute value
-  [[nodiscard]] const auto& get_value() const
-  {
-    return value;
-  }
+  [[nodiscard]] const auto& get_value() const { return value; }
 
   // Method to set the attribute value
-  void set_value(const attr_value_t& value)
-  {
-    this->value = value;
-  }
+  void set_value(const attr_value_t& value) { this->value = value; }
 
   // Attribute read
   [[nodiscard]] auto read() const
