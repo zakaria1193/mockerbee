@@ -14,6 +14,8 @@ set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
+set(CMAKE_COLOR_DIAGNOSTICS ON)
+
 ############################################################
 # Build types definitions
 ############################################################
