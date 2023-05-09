@@ -14,11 +14,14 @@ int main(int argc, char* argv[])
       1, zcl::on_off_cluster::cluster_descriptor.id,
       zcl::on_off_cluster::setOffCmdDescriptor.get_id(), false);
 
-  const zcl::Attribute read_attr;
+  const zcl::attr_id_t attr_id =
+      zcl::on_off_cluster::onOffAttributeDescriptor.id;
+  zcl::attr_value_t read_attr;
 
-  device.execute_cluster_command(
+  device.execute_cluster_command<const zcl::attr_id_t&, zcl::attr_value_t&>(
       1, zcl::on_off_cluster::cluster_descriptor.id,
-      zcl::read_attribute_command_descriptor.get_id(), true, read_attr);
+      zcl::read_attribute_command_descriptor.get_id(), true, attr_id,
+      read_attr);
 
   std::cout << " --- Exiting --- " << '\n';
 
