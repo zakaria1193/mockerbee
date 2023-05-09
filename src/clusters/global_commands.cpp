@@ -15,7 +15,7 @@ const commands_map_t Cluster::common_commands_map = {
     {report_attributes_command_descriptor,
      static_cast<const CommandBase*>(&reportAttributesCommand)}};
 
-ZclStatus readAttributeCommandExecuter(const Cluster&   cluster,
+ZclStatus readAttributeCommandExecuter(Cluster&         cluster,
                                        const attr_id_t& attribute_id,
                                        attr_value_t&    value)
 {
@@ -55,7 +55,7 @@ ZclStatus configureReportingCommandExecuter(
   return ZclStatus::success;
 }
 
-ZclStatus reportAttributesCommandExecuter(const Cluster&   cluster,
+ZclStatus reportAttributesCommandExecuter(Cluster&         cluster,
                                           const Attribute& attribute)
 {
   std::cout << "Report attributes command" << '\n';
@@ -64,7 +64,7 @@ ZclStatus reportAttributesCommandExecuter(const Cluster&   cluster,
 }
 
 ZclStatus discoverAttributesCommandExecuter(
-    const Cluster&                       cluster,
+    Cluster&                             cluster,
     std::vector<attribute_descriptor_t>& attribute_descriptors)
 {
   std::cout << "Discover attributes command" << '\n';
