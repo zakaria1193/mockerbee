@@ -141,8 +141,8 @@ class Cluster
         using target_type = const Command<Cluster&, Args...>* const;
 
         std::cout << "Calling command " << descriptor.get_description()
-                  << " of cluster " << this->descriptor.description
-                  << '\n';
+                  << " of cluster " << this->descriptor.description << " "
+                  << __PRETTY_FUNCTION__ << '\n';
 
         auto cmd_ptr = dynamic_cast<target_type>(gen_cmd_ptr);
         if (cmd_ptr == nullptr)
