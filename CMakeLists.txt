@@ -1,6 +1,16 @@
+############################################################
+# CMake options
+############################################################
+
 cmake_minimum_required(VERSION 3.5)
 
 project(mockerbee VERSION 1.0.0)
+
+# Compile_commands.json generation
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+
+# Set to ON to enable verbose output when building
+set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -12,14 +22,53 @@ set(CMAKE_CXX_STANDARD 23)
 
 # Set the clang++ compiler
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
+set(CMAKE_C_COMPILER "/usr/bin/clang")
+set(CMAKE_SIZE "/usr/bin/size")
 
-# Debugging options
-set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -g")
-set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -g")
+# Compiler flags
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
+    -Wall \
+    -Wextra \
+    -Wno-unused-parameter \
+    -Wno-unused-private-field")
+set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS}")
 
-# Compile_commands.json generation
-set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Map=output.map")
+
+# Only relevant for Makefile generators (And other single-configuration generators)
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE DEBUG)
+else()
+    string(TOUPPER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE)
+endif()
+
+# Necessary for multi-configuration generators such as Ninja Multi-Config
+set(CMAKE_CONFIGURATION_TYPES "DEBUG;RELEASE")
+set(CMAKE_DEFAULT_BUILD_TYPE "DEBUG")
+
+# Debugging flags
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} \
+    -ggdb \
+    -fdebug-macro \
+    -fparse-all-comments \
+    -fno-omit-frame-pointer \
+    -fno-optimize-sibling-calls \
+    -fsanitize=address,undefined")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+
+# Release flags
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} \
+    -O2 \
+    -march=native \
+    -flto")
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
+
+# Print the build type and flags
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+# print the compiler flags (including release or debug flags)
+message(STATUS "CXX flags: ${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE}}")
+message(STATUS "C flags: ${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_${CMAKE_BUILD_TYPE}}")
+
 
 ############################################################
 # Create a library
@@ -39,9 +88,6 @@ target_include_directories(mockbee_library
         ${PROJECT_SOURCE_DIR}/include
 )
 
-# Set to ON to enable verbose output when building
-set(CMAKE_VERBOSE_MAKEFILE OFF)
-
 ############################################################
 # Create an executable
 ############################################################
@@ -58,6 +104,22 @@ add_executable(mockbee_test_bin
 target_link_libraries(mockbee_test_bin
     PRIVATE 
     mockbee_library
+)
+
+############################################################
+# Post build commands
+############################################################
+
+# Generate the .bin
+add_custom_command(TARGET mockbee_test_bin POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:mockbee_test_bin> $<TARGET_FILE:mockbee_test_bin>.bin
+    COMMENT "Generating .bin"
+)
+
+# Print the size
+add_custom_command(TARGET mockbee_test_bin POST_BUILD
+    COMMAND ${CMAKE_SIZE} $<TARGET_FILE:mockbee_test_bin>
+    COMMENT "Size of the executable"
 )
 
 ############################################################
