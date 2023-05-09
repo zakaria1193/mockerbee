@@ -16,8 +16,8 @@ using cluster_list_t = std::vector<Cluster>;
 
 class Endpoint
 {
-  cluster_list_t clusters;
   endpoint_id_t  ep_id;
+  cluster_list_t clusters;
 
  public:
   Endpoint(endpoint_id_t ep_id, cluster_list_t clusters)
