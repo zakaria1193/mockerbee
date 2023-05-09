@@ -41,6 +41,9 @@ class CommandDescriptor
 
   // ID getter
   [[nodiscard]] command_id_t get_id() const { return id; }
+
+  // Get description
+  [[nodiscard]] const std::string& get_description() const { return description; }
 };
 
 class CommandBase
