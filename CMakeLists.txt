@@ -33,41 +33,8 @@ set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 set(CMAKE_C_COMPILER "/usr/bin/clang")
 set(CMAKE_SIZE "/usr/bin/size")
 
-# Compiler flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
-    -Wall \
-    -Wextra \
-    -Wno-unused-parameter \
-    -Wno-unused-private-field")
-set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS}")
-
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Map=output.map")
-
 # Colorize output
-# Warning: Build specific (clang/gcc), necessary for ninja
-# Only works for clang++ calls, not for clang-tidy etc...
 set(CMAKE_COLOR_DIAGNOSTICS ON)
-
-# Debugging flags
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} \
-    -ggdb \
-    -fdebug-macro \
-    -fparse-all-comments \
-    -fno-omit-frame-pointer \
-    -fno-optimize-sibling-calls \
-    -fsanitize=address,undefined")
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
-
-# Release flags
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} \
-    -O2 \
-    -march=native \
-    -flto")
-set(CMAKE_C_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
-
-# print the compiler flags (including release or debug flags)
-message(STATUS "CXX flags: ${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE}}")
-message(STATUS "C flags: ${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_${CMAKE_BUILD_TYPE}}")
 
 ############################################################
 # CMake options
@@ -103,6 +70,26 @@ target_include_directories(mockbee_library
         ${PROJECT_SOURCE_DIR}/include
 )
 
+# Compiler flags
+target_compile_options(mockbee_library PRIVATE
+    -Wall
+    -Wextra
+    -Wno-unused-parameter
+    -Wno-unused-private-field
+    $<$<CONFIG:Debug>:
+        -ggdb
+        -fdebug-macro
+        -fparse-all-comments
+        -fno-omit-frame-pointer
+        -fno-optimize-sibling-calls
+        -fsanitize=address,undefined
+    >
+    $<$<CONFIG:Release>:
+        -O2
+    >
+)
+
+
 ############################################################
 # Create an executable
 ############################################################
@@ -120,6 +107,19 @@ target_link_libraries(mockbee_test_bin
     PRIVATE 
     mockbee_library
 )
+
+# Linker flags
+target_link_options(mockbee_test_bin PRIVATE
+    -Wl,-Map=output.map
+    $<$<CONFIG:Debug>:
+        -fsanitize=address,undefined
+    >
+    $<$<CONFIG:Release>:
+        -flto
+    >
+)
+
+target_compile_options(mockbee_test_bin PRIVATE $<TARGET_PROPERTY:mockbee_library,COMPILE_OPTIONS>)
 
 ############################################################
 # Post build commands
