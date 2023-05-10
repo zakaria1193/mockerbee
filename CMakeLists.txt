@@ -1,8 +1,7 @@
 ############################################################
 # CMake options
 ############################################################
-
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.9)
 
 project(mockerbee VERSION 1.0.0)
 
@@ -22,18 +21,24 @@ set(CMAKE_COLOR_DIAGNOSTICS ON)
 ############################################################
 # Build types definitions
 ############################################################
-if(GENERATOR_IS_MULTI_CONFIG)
+get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+
+if(isMultiConfig)
 # Necessary for multi-configuration generators such as Ninja Multi-Config
-  set(CMAKE_CONFIGURATION_TYPES "DEBUG;RELEASE")
-  set(CMAKE_DEFAULT_BUILD_TYPE "DEBUG")
+  set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
+  set(CMAKE_DEFAULT_BUILD_TYPE "Debug")
+  message(STATUS "Multi-configuration generator used, append --config <Debug|Release> "
+  "to build the desired configuration.")
+
 else()
 # Only relevant for Makefile/Ninja generators (And other single-configuration generators)
 # Manually set the default build type to Debug
-    if(NOT CMAKE_BUILD_TYPE)
-        set(CMAKE_BUILD_TYPE DEBUG)
-    else()
-        string(TOUPPER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE)
-    endif()
+  if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE DEBUG)
+    message(STATUS "Setting build type to 'Debug' as none was specified.")
+  endif()
+# Print the build type and flags
+  message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 endif()
 
 ############################################################
@@ -75,8 +80,6 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} \
     -flto")
 set(CMAKE_C_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 
-# Print the build type and flags
-message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 # print the compiler flags (including release or debug flags)
 message(STATUS "CXX flags: ${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE}}")
 message(STATUS "C flags: ${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_${CMAKE_BUILD_TYPE}}")
