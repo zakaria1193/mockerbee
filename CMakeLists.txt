@@ -14,7 +14,7 @@ else()
 # Only relevant for Makefile/Ninja generators (And other single-configuration generators)
 # Manually set the default build type to Debug
   if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE DEBUG)
+    set(CMAKE_BUILD_TYPE Debug)
     message(STATUS "Setting build type to 'Debug' as none was specified.")
   endif()
 # Print the build type and flags
