@@ -14,6 +14,9 @@ set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
+# Warning: Clang specific, necessary for ninja
+# Only works for clang++ calls, not for clang-tidy etc...
+# FIXME find better solution, use makefile generator in the meantime
 set(CMAKE_COLOR_DIAGNOSTICS ON)
 
 ############################################################
