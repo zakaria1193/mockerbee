@@ -13,10 +13,6 @@ set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
-# Warning: Clang specific, necessary for ninja
-# Only works for clang++ calls, not for clang-tidy etc...
-# FIXME find better solution, use makefile generator in the meantime
-set(CMAKE_COLOR_DIAGNOSTICS ON)
 
 ############################################################
 # Build types definitions
@@ -62,6 +58,10 @@ set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS}")
 
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Map=output.map")
 
+# Colorize output
+# Warning: Build specific (clang/gcc), necessary for ninja
+# Only works for clang++ calls, not for clang-tidy etc...
+set(CMAKE_COLOR_DIAGNOSTICS ON)
 
 # Debugging flags
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} \
@@ -204,6 +204,7 @@ if(CLANG_FORMAT)
     COMMAND ${CLANG_FORMAT}
     -style=file # Look for the .clang-format file in the WORKING_DIRECTORY
     -i # In-place editing of the files
+    --use-color # Colorize output
     ${FORMAT_FILES} # Files to format
     COMMENT "Running Clang-Format"
     WORKING_DIRECTORY ${PROJECT_DIR}
