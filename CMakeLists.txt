@@ -1,20 +1,4 @@
 ############################################################
-# CMake options
-############################################################
-cmake_minimum_required(VERSION 3.9)
-
-project(mockerbee VERSION 1.0.0)
-
-# Compile_commands.json generation
-set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
-
-# Set to ON to enable verbose output when building
-set(CMAKE_VERBOSE_MAKEFILE OFF)
-
-set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-
-
-############################################################
 # Build types definitions
 ############################################################
 get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
@@ -38,7 +22,8 @@ else()
 endif()
 
 ############################################################
-# Set compiler options
+# Set compiler, language and flags
+# Keep before project() call
 ############################################################
 # Set the C++ standard to use
 set(CMAKE_CXX_STANDARD 23)
@@ -83,6 +68,21 @@ set(CMAKE_C_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
 # print the compiler flags (including release or debug flags)
 message(STATUS "CXX flags: ${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE}}")
 message(STATUS "C flags: ${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_${CMAKE_BUILD_TYPE}}")
+
+############################################################
+# CMake options
+############################################################
+cmake_minimum_required(VERSION 3.9)
+
+project(mockerbee VERSION 1.0.0)
+
+# Compile_commands.json generation
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+
+# Set to ON to enable verbose output when building
+set(CMAKE_VERBOSE_MAKEFILE OFF)
+
+set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 
 ############################################################
