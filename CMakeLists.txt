@@ -162,10 +162,11 @@ if(CLANG_TIDY_EXE)
     message(STATUS "clang-tidy found: ${CLANG_TIDY_EXE}")
     set(DO_CLANG_TIDY
       "${CLANG_TIDY_EXE}"
+      --use-color # Colorize output
       -p ${CMAKE_BINARY_DIR}/compile_commands.json
       )
     add_custom_target(
-        clang-tidy-run
+        clang-tidy
         COMMAND ${DO_CLANG_TIDY} ${EXECUTABLE_SOURCES} ${LIBRARY_SOURCES}
         WORKING_DIRECTORY ${PROJECT_DIR}
         COMMENT "Running clang-tidy"
@@ -204,7 +205,6 @@ if(CLANG_FORMAT)
     COMMAND ${CLANG_FORMAT}
     -style=file # Look for the .clang-format file in the WORKING_DIRECTORY
     -i # In-place editing of the files
-    --use-color # Colorize output
     ${FORMAT_FILES} # Files to format
     COMMENT "Running Clang-Format"
     WORKING_DIRECTORY ${PROJECT_DIR}
