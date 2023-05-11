@@ -10,3 +10,6 @@ apt-get install -y $PACKAGES
 wget https://apt.llvm.org/llvm.sh
 chmod +x llvm.sh
 yes | ./llvm.sh 17
+
+apt-get install clang-format clang-tidy
+
