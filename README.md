@@ -9,7 +9,13 @@ Device Mocker is designed to be easy to use, with a simple API that allows you t
 ### Prerequisites
 
 - CMake 3.10 or later
-- C++ compiler with C++17 support
+- C++ compiler with C++23 support (Recommended clang-17)
+
+### Code quality checks
+- libsanitizer
+- clang-tidy
+- cppcheck
+- clang-format
 
 ### CI Test
 [![CMake](https://github.com/zakaria1193/mockerbee/actions/workflows/cmake.yml/badge.svg)](https://github.com/zakaria1193/mockerbee/actions/workflows/cmake.yml)
