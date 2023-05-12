@@ -1,3 +1,5 @@
+name: GPT auto PR
+
 on:
   issues:
     types: [labeled]
