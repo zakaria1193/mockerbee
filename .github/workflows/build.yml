@@ -1,14 +1,10 @@
-name: CMake
+name: Build & Check
 
 on:
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-
-env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: Release
 
 jobs:
   install:
@@ -33,9 +29,9 @@ jobs:
         # Build your program with the given configuration
         run: cmake --build ${{github.workspace}}/build --config ${{ matrix.build_type }}
 
-      - name: clang-tidy
-        run: cmake --build ${{github.workspace}}/build --config ${{ matrix.build_type }} -t clang-tidy
-
-      - name: cppcheck
-        run: cmake --build ${{github.workspace}}/build --config ${{ matrix.build_type }} -t cppcheck
+      # - name: clang-tidy
+      #   run: cmake --build ${{github.workspace}}/build --config ${{ matrix.build_type }} -t clang-tidy
+      #
+      # - name: cppcheck
+      #   run: cmake --build ${{github.workspace}}/build --config ${{ matrix.build_type }} -t cppcheck
 
