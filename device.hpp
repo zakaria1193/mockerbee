@@ -1,0 +1,1 @@
+Remove zcl namespace declaration from device.hpp
