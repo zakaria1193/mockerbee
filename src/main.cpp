@@ -1,7 +1,7 @@
+#include <device.hpp>
 #include <iostream>
 #include <zcl/clusters/global_commands.hpp>
 #include <zcl/clusters/on_off_cluster.hpp>
-#include <device.hpp>
 
 // Do not optimize
 int main(int argc, char* argv[])

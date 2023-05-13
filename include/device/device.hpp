@@ -41,14 +41,39 @@ class Endpoint
 };
 
 using endpoint_list_t = std::vector<Endpoint>;
+using short_address_t = uint16_t;
+using mac_address_t   = uint64_t;
 
 class Device
 {
+  mac_address_t   mac_address;
+  short_address_t short_address;
+  bool            reacheable{true};
+  bool            in_network{false};
   endpoint_list_t endpoints;
 
  public:
-  explicit Device(endpoint_list_t endpoints) : endpoints(std::move(endpoints))
+  Device(mac_address_t mac_address, endpoint_list_t endpoints)
+      : mac_address(mac_address),
+        short_address(random()),
+        endpoints(std::move(endpoints))
   {
+  }
+
+  [[nodiscard]] mac_address_t get_mac_address() const { return mac_address; }
+
+  [[nodiscard]] short_address_t get_short_address() const
+  {
+    return short_address;
+  }
+
+  [[nodiscard]] bool is_reacheable() const { return reacheable; }
+
+  [[nodiscard]] bool is_in_network() const { return in_network; }
+
+  [[nodiscard]] const endpoint_list_t& get_endpoints() const
+  {
+    return endpoints;
   }
 
   Endpoint& get_endpoint(const endpoint_id_t ep_id)
