@@ -1,12 +1,14 @@
+#include <device/device.hpp>
 #include <iostream>
 #include <zcl/clusters/global_commands.hpp>
 #include <zcl/clusters/on_off_cluster.hpp>
-#include <device.hpp>
+
+const device::mac_address_t mac_address = 0x1234567890ABCDEF;
 
 // Do not optimize
 int main(int argc, char* argv[])
 {
-  zcl::OnOffDevice device;
+  device::OnOffDevice device(mac_address);
 
   std::cout << "Running..." << '\n';
 
