@@ -9,10 +9,11 @@
 #include "zcl/common/cluster.hpp"
 #include "zcl/common/commands.hpp"
 
-namespace zcl
+namespace device
 {
+
 using endpoint_id_t  = uint8_t;
-using cluster_list_t = std::vector<Cluster>;
+using cluster_list_t = std::vector<zcl::Cluster>;
 
 class Endpoint
 {
@@ -27,7 +28,7 @@ class Endpoint
 
   [[nodiscard]] endpoint_id_t get_endpoint_id() const { return ep_id; }
 
-  Cluster& get_cluster(const cluster_id_t cluster_id)
+  zcl::Cluster& get_cluster(const zcl::cluster_id_t cluster_id)
   {
     for (auto& cluster : clusters)
     {
@@ -41,14 +42,39 @@ class Endpoint
 };
 
 using endpoint_list_t = std::vector<Endpoint>;
+using short_address_t = uint16_t;
+using mac_address_t   = uint64_t;
 
 class Device
 {
+  mac_address_t   mac_address;
+  short_address_t short_address;
+  bool            reacheable{true};
+  bool            in_network{false};
   endpoint_list_t endpoints;
 
  public:
-  explicit Device(endpoint_list_t endpoints) : endpoints(std::move(endpoints))
+  Device(mac_address_t mac_address, endpoint_list_t endpoints)
+      : mac_address(mac_address),
+        short_address(random()),
+        endpoints(std::move(endpoints))
   {
+  }
+
+  [[nodiscard]] mac_address_t get_mac_address() const { return mac_address; }
+
+  [[nodiscard]] short_address_t get_short_address() const
+  {
+    return short_address;
+  }
+
+  [[nodiscard]] bool is_reacheable() const { return reacheable; }
+
+  [[nodiscard]] bool is_in_network() const { return in_network; }
+
+  [[nodiscard]] const endpoint_list_t& get_endpoints() const
+  {
+    return endpoints;
   }
 
   Endpoint& get_endpoint(const endpoint_id_t ep_id)
@@ -64,13 +90,13 @@ class Device
   }
 
   template <typename... Args>
-  ZclStatus execute_cluster_command(const endpoint_id_t ep_id,
-                                    const cluster_id_t  cluster_id,
-                                    const command_id_t  command_id,
+  zcl::ZclStatus execute_cluster_command(const endpoint_id_t ep_id,
+                                    const zcl::cluster_id_t  cluster_id,
+                                    const zcl::command_id_t  command_id,
                                     bool                is_common, Args... args)
   {
     Endpoint ept     = get_endpoint(ep_id);
-    Cluster  cluster = ept.get_cluster(cluster_id);
+    zcl::Cluster  cluster = ept.get_cluster(cluster_id);
 
     return cluster.execute_cluster_command<Args...>(command_id, is_common,
                                                     args...);
@@ -80,9 +106,10 @@ class Device
 class OnOffDevice : public Device
 {
  public:
-  OnOffDevice()
-      : Device({Endpoint{1, {zcl::on_off_cluster::OnOffCluster()}}}){};
+  explicit OnOffDevice(mac_address_t mac_address)
+      : Device(mac_address, {Endpoint{1, {zcl::on_off_cluster::OnOffCluster()}}}){};
 };
-}  // namespace zcl
+
+}  // namespace device
 
 #endif  // ZCL_DEVICE_HPP__
