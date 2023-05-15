@@ -9,6 +9,7 @@ enum class ZclStatus
   timeout         = -1,
   null_pointer    = -2,
   not_implemented = -3,
+  route_error     = -4,
 };
 }  // namespace zcl
 
