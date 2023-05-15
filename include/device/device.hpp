@@ -72,6 +72,8 @@ class Device
 
   [[nodiscard]] bool is_in_network() const { return in_network; }
 
+  void set_in_network(bool in_network) { this->in_network = in_network; }
+
   [[nodiscard]] const endpoint_list_t& get_endpoints() const
   {
     return endpoints;
