@@ -2,6 +2,7 @@
 #include <iostream>
 #include <zcl/clusters/global_commands.hpp>
 #include <zcl/clusters/on_off_cluster.hpp>
+#include <nwk_mgt_commands.hpp>
 
 const device::mac_address_t mac_address = 0x1234567890ABCDEF;
 
@@ -24,6 +25,17 @@ int main(int argc, char* argv[])
       1, zcl::on_off_cluster::cluster_descriptor.id,
       zcl::read_attribute_command_descriptor.get_id(), true, attr_id,
       read_attr);
+
+
+  // Pool
+
+  device::Pool pool;
+
+  pool.add_device(device);
+
+  device::short_address_t nwk_address = 0;
+
+  requestNwkAddressExecuter(pool, mac_address, nwk_address);
 
   std::cout << " --- Exiting --- " << '\n';
 
