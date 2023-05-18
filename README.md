@@ -1,5 +1,7 @@
 
-Device Mocker with ZCL API is a powerful library for simulating devices with different ZCL clusters, designed for developers working on IoT devices with Zigbee communication.
+{
+    "outcome": "Successfully updated the hunk to include Matter devices that use the ZCL."
+}
 
 Built with modern C++ features, Device Mocker supports both C and C++ APIs and can be easily integrated into your existing project.
 
