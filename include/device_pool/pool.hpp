@@ -7,7 +7,7 @@ namespace device
 {
 class Pool
 {
-  using device_list = std::vector<device::Device>;
+  using device_list   = std::vector<device::Device>;
   device_list devices = {};
 
  public:

@@ -41,8 +41,8 @@ const zcl::CommandDescriptor leaveCmdDescriptor{/*cmd_id=*/0x34,
                                                 /*is_mandatory=*/true,
                                                 /*description=*/"leave"};
 
-zcl::ZclStatus               leaveExecuter(device::Device& device);
+zcl::ZclStatus leaveExecuter(device::Device& device);
 
-const zcl::Command           leaveCommand{/*exec=*/leaveExecuter};
+const zcl::Command leaveCommand{/*exec=*/leaveExecuter};
 
 #endif  // NWK_MGT_COMMANDS_HPP
