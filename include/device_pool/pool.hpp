@@ -7,7 +7,7 @@ namespace device
 {
 class Pool
 {
-  using device_list = std::vector<device::Device>;
+  using device_list   = std::vector<device::Device>;
   device_list devices = {};
 
  public:
@@ -29,7 +29,8 @@ class Pool
     throw std::runtime_error("Device not found");
   }
 
-  device::Device& get_device_by_short(const device::short_address_t& short_address)
+  device::Device& get_device_by_short(
+      const device::short_address_t& short_address)
   {
     for (auto& device : devices)
     {

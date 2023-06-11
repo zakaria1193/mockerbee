@@ -92,13 +92,13 @@ class Device
   }
 
   template <typename... Args>
-  zcl::ZclStatus execute_cluster_command(const endpoint_id_t ep_id,
-                                    const zcl::cluster_id_t  cluster_id,
-                                    const zcl::command_id_t  command_id,
-                                    bool                is_common, Args... args)
+  zcl::ZclStatus execute_cluster_command(const endpoint_id_t     ep_id,
+                                         const zcl::cluster_id_t cluster_id,
+                                         const zcl::command_id_t command_id,
+                                         bool is_common, Args... args)
   {
-    Endpoint ept     = get_endpoint(ep_id);
-    zcl::Cluster  cluster = ept.get_cluster(cluster_id);
+    Endpoint     ept     = get_endpoint(ep_id);
+    zcl::Cluster cluster = ept.get_cluster(cluster_id);
 
     return cluster.execute_cluster_command<Args...>(command_id, is_common,
                                                     args...);
@@ -109,7 +109,8 @@ class OnOffDevice : public Device
 {
  public:
   explicit OnOffDevice(mac_address_t mac_address)
-      : Device(mac_address, {Endpoint{1, {zcl::on_off_cluster::OnOffCluster()}}}){};
+      : Device(mac_address,
+               {Endpoint{1, {zcl::on_off_cluster::OnOffCluster()}}}){};
 };
 
 }  // namespace device
