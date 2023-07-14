@@ -1,6 +1,6 @@
 #include <device/device.hpp>
 #include <iostream>
-#include <nwk_mgt_commands.hpp>
+#include <nwk/nwk_mgt_commands.hpp>
 #include <zcl/clusters/global_commands.hpp>
 #include <zcl/clusters/on_off_cluster.hpp>
 
