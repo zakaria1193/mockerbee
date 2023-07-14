@@ -9,6 +9,9 @@
 // Command descriptors
 //////////////////////////////
 
+namespace nwk
+{
+
 // Request NWK address command
 const zcl::CommandDescriptor requestNwkAddressCmdDescriptor{
     /*cmd_id=*/0,
@@ -44,5 +47,7 @@ const zcl::CommandDescriptor leaveCmdDescriptor{/*cmd_id=*/0x34,
 zcl::ZclStatus               leaveExecuter(device::Device& device);
 
 const zcl::Command           leaveCommand{/*exec=*/leaveExecuter};
+
+}  // namespace nwk
 
 #endif  // NWK_MGT_COMMANDS_HPP

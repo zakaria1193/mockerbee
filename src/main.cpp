@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 
   device::short_address_t nwk_address = 0;
 
-  requestNwkAddressExecuter(pool, mac_address, nwk_address);
+  nwk::requestNwkAddressExecuter(pool, mac_address, nwk_address);
 
   std::cout << " --- Exiting --- " << '\n';
 

@@ -1,5 +1,8 @@
 #include <nwk_mgt_commands.hpp>
 
+namespace nwk
+{
+
 zcl::ZclStatus requestNwkAddressExecuter(
     device::Pool& pool, const device::mac_address_t& input_mac_address,
     device::short_address_t& output_nwk_address)
@@ -28,3 +31,5 @@ zcl::ZclStatus leaveExecuter(device::Device& device)
 
   return zcl::ZclStatus::success;
 }
+
+}  // namespace nwk
