@@ -2,21 +2,39 @@
 #define DEVICE_POOL_POOL_HPP
 
 #include <device/device.hpp>
+#include <nwk/pan.hpp>
+
+#include <memory>
 
 namespace device
 {
 class Pool
 {
-  using device_list   = std::vector<device::Device>;
+  using device_list   = std::vector<Device>;
   device_list devices = {};
 
+  // Each pool has its own PAN
+    std::shared_ptr<nwk::Pan> pan;
+
  public:
-  Pool() = default;
-  explicit Pool(device_list devices) : devices(std::move(devices)) {}
+  Pool() = delete;
+
+  explicit Pool(nwk::pan_id_t pan_id) : pan(std::make_shared<nwk::Pan>(pan_id))
+  {
+  }
+  
+  Pool(device_list devices, nwk::pan_id_t pan_id)
+      : devices(std::move(devices)), pan(std::make_shared<nwk::Pan>(pan_id))
+  {
+  }
+
+  [[nodiscard]] std::shared_ptr<nwk::Pan> get_pan() const { return pan; }
+
+  [[nodiscard]] const device_list& get_devices() const { return devices; }
 
   void add_device(Device& device) { devices.push_back(device); }
 
-  device::Device& get_device_by_mac(const device::mac_address_t& mac)
+  device::Device& get_device_by_mac(const device::MacAddress& mac)
   {
     for (auto& device : devices)
     {

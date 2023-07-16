@@ -2,12 +2,17 @@
 #define ZCL_DEVICE_HPP
 
 #include <cstdint>
+#include <iomanip>
 #include <utility>
 #include <vector>
+#include <memory>
+
 #include <zcl/clusters/on_off_cluster.hpp>
 
 #include "zcl/common/cluster.hpp"
 #include "zcl/common/commands.hpp"
+
+#include "nwk/pan.hpp"
 
 namespace device
 {
@@ -43,25 +48,84 @@ class Endpoint
 
 using endpoint_list_t = std::vector<Endpoint>;
 using short_address_t = uint16_t;
-using mac_address_t   = uint64_t;
+
+class MacAddress
+{
+  using mac_address_value_t = std::array<uint8_t, 8>;
+  mac_address_value_t address{};
+  size_t              size{};
+
+ public:
+  MacAddress() = delete;
+
+  // Constructer from byte arg list using initializer list
+  template <typename... Args>
+  explicit MacAddress(Args... args) : size(sizeof...(args))
+  {
+    size_t index = 0;
+
+    if (size > address.size())
+    {
+      throw std::runtime_error("MacAddress constructor received too many bytes");
+    }
+
+    for (auto arg : {args...})
+    {
+      address[index++] = arg;
+    }
+
+    std::cout << "MacAddress created with " << size << " bytes" << std::endl;
+
+  }
+
+  [[nodiscard]] std::string get_string() const
+  {
+    std::stringstream ss;
+    // Format 00:AA:BB:CC:DD:EE:FF:00
+    for (size_t i = 0; i < size; i++)
+    {
+      bool is_last = i == size - 1;
+      ss << std::setfill('0') << std::setw(2) << std::hex
+         << static_cast<int>(address[i]) << (is_last ? "" : ":");
+    }
+
+    return ss.str();
+  }
+
+  // Comparison operators
+  bool operator==(const MacAddress& rhs) const
+  {
+    return address == rhs.address;
+  }
+
+  bool operator!=(const MacAddress& rhs) const
+  {
+    return !(rhs == *this);
+  }
+};
 
 class Device
 {
-  mac_address_t   mac_address;
-  short_address_t short_address;
-  bool            reacheable{true};
-  bool            in_network{false};
+  MacAddress mac_address;
   endpoint_list_t endpoints;
 
+  // Attributes depending on the network
+  std::weak_ptr<nwk::Pan> pan{};
+  short_address_t  short_address{};
+  bool            reacheable{true};
+
  public:
-  Device(mac_address_t mac_address, endpoint_list_t endpoints)
+  Device() = delete;
+  Device(MacAddress mac_address, endpoint_list_t endpoints)
       : mac_address(mac_address),
-        short_address(random()),
         endpoints(std::move(endpoints))
   {
+      std::cout << "Device created with MAC: " << mac_address.get_string()
+        << " and " << endpoints.size() << " endpoints"
+        << std::endl;
   }
 
-  [[nodiscard]] mac_address_t get_mac_address() const { return mac_address; }
+  [[nodiscard]]  MacAddress get_mac_address() const { return mac_address; }
 
   [[nodiscard]] short_address_t get_short_address() const
   {
@@ -70,9 +134,7 @@ class Device
 
   [[nodiscard]] bool is_reacheable() const { return reacheable; }
 
-  [[nodiscard]] bool is_in_network() const { return in_network; }
-
-  void set_in_network(bool in_network) { this->in_network = in_network; }
+  [[nodiscard]] bool is_in_network() const { return pan.lock() != nullptr; }
 
   [[nodiscard]] const endpoint_list_t& get_endpoints() const
   {
@@ -81,14 +143,15 @@ class Device
 
   Endpoint& get_endpoint(const endpoint_id_t ep_id)
   {
-    for (auto& endpoint : endpoints)
+    auto ept = std::find_if(endpoints.begin(), endpoints.end(),
+                 [ep_id](const Endpoint& ept) { return ept.get_endpoint_id() == ep_id; });
+
+    if (ept == endpoints.end())
     {
-      if (endpoint.get_endpoint_id() == ep_id)
-      {
-        return endpoint;
-      }
+      throw std::runtime_error("Endpoint not found");
     }
-    throw std::runtime_error("Endpoint not found");
+
+    return *ept;
   }
 
   template <typename... Args>
@@ -103,12 +166,29 @@ class Device
     return cluster.execute_cluster_command<Args...>(command_id, is_common,
                                                     args...);
   }
+
+  bool join_pan(const std::shared_ptr<nwk::Pan>& pan)
+  {
+    if (!pan->is_permit_joining())
+    {
+      std::cout << "Joining not allowed" << std::endl;
+      return false;
+    }
+
+    this->pan = pan;
+    return true;
+  }
+
+  void leave_pan()
+  {
+    pan.reset();
+  }
 };
 
 class OnOffDevice : public Device
 {
  public:
-  explicit OnOffDevice(mac_address_t mac_address)
+  explicit OnOffDevice(MacAddress mac_address)
       : Device(mac_address,
                {Endpoint{1, {zcl::on_off_cluster::OnOffCluster()}}}){};
 };
