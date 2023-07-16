@@ -20,7 +20,7 @@ const zcl::CommandDescriptor requestNwkAddressCmdDescriptor{
     /*description=*/"Request NWK address"};
 
 zcl::ZclStatus requestNwkAddressExecuter(
-    device::Pool& pool, const device::mac_address_t& input_mac_address,
+    device::Pool& pool, const device::MacAddress& input_mac_address,
     device::short_address_t& output_nwk_address);
 
 const zcl::Command requestNwkAddressCommand{/*exec=*/requestNwkAddressExecuter};
@@ -34,7 +34,7 @@ const zcl::CommandDescriptor requestMacAddressCmdDescriptor{
 
 zcl::ZclStatus requestMacAddressExecuter(
     device::Pool& pool, const device::short_address_t& input_nwk_address,
-    device::mac_address_t& output_mac_address);
+    device::MacAddress& output_mac_address);
 
 const zcl::Command requestMacAddressCommand{/*exec=*/requestMacAddressExecuter};
 
