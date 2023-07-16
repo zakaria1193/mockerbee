@@ -84,7 +84,28 @@ class Command : public CommandBase
   }
 };
 
-using commands_map_t = std::map<CommandDescriptor, const CommandBase* const>;
+using command_generic_ptr_t = const CommandBase* const;
+
+
+using commands_map_t = std::map<CommandDescriptor, command_generic_ptr_t>;
+
+/**
+ * @brief Emplace command into commands map
+ *
+ * @tparam Args
+ * @param commands_map
+ * @param cmd_descriptor
+ * @param cmd
+ */
+template <typename... Args>
+constexpr void emplace_command(commands_map_t& commands_map,
+                               const CommandDescriptor& cmd_descriptor,
+                               std::function<ZclStatus(Args...)> cmd)
+{
+
+  commands_map.emplace(cmd_descriptor, new Command<Args...>(cmd)); 
+}
+
 }  // namespace zcl
 
 #endif  // ZCL_COMMON_COMMANDS_HPP

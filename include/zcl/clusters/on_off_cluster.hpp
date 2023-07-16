@@ -101,7 +101,7 @@ const cluster_descriptor_t cluster_descriptor{/*id=*/6,
 
 const commands_map_t on_off_commands_map = {
     {setOffCmdDescriptor,
-     static_cast<const CommandBase* const>(&setOffCommand)},
+     static_cast<command_generic_ptr_t>(&setOffCommand)},
 };
 
 // OnOffCluster class
