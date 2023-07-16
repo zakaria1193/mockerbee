@@ -29,11 +29,16 @@ endif
 
 $(info verbose = ${VERBOSE})
 
-build: 
+build_$(CONFIG):
 	$(info Build Config = ${CONFIG})
 	cmake --build ${BUILD_DIR} --config ${CONFIG} ${VERBOSE_FLAG} ${DRY_RUN_FLAG}
+
+build: build_$(CONFIG)
 
 %:
 	cmake --build ${BUILD_DIR} -t $@ ${VERBOSE_FLAG} ${DRY_RUN_FLAG}
 
-.PHONY: build
+run: build_$(CONFIG)
+	${BUILD_DIR}/$(CONFIG)/mockbee_test_bin
+
+.PHONY: build build_$(CONFIG) configure run
