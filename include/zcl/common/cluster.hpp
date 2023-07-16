@@ -32,25 +32,13 @@ class Cluster
   const commands_map_t*       commands_map;
   static const commands_map_t common_commands_map;
 
-  static attributes_list_t create_attributes(
-      const std::vector<attribute_descriptor_t>& attribute_descriptors)
-  {
-    std::vector<Attribute> attributes;
-    attributes.reserve(attribute_descriptors.size());
-    for (const auto& attr_desc : attribute_descriptors)
-    {
-      attributes.emplace_back(attr_desc);
-    }
-    return attributes;
-  }
-
  public:
   // Constructor
   Cluster(cluster_descriptor_t                       descriptor,
           const std::vector<attribute_descriptor_t>& attribute_descriptors,
           const commands_map_t&                      commands_map)
       : descriptor(std::move(descriptor)),
-        attributes(create_attributes(attribute_descriptors)),
+        attributes(create_attributes_list(attribute_descriptors)),
         commands_map(&commands_map)
   {
   }

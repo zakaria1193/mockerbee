@@ -93,6 +93,18 @@ class Attribute
 };
 
 using attributes_list_t = std::vector<Attribute>;
+
+inline attributes_list_t create_attributes_list(
+    const std::vector<attribute_descriptor_t>& attribute_descriptors)
+{
+  attributes_list_t attributes_;
+  attributes_.reserve(attribute_descriptors.size());
+  for (const auto& attr_desc : attribute_descriptors)
+  {
+    attributes_.emplace_back(attr_desc);
+  }
+  return attributes_;
+}
 }  // namespace zcl
 
 #endif  // ZCL_COMMON_ATTRIBUTES_HPP
