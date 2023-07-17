@@ -86,7 +86,6 @@ class Command : public CommandBase
 
 using command_generic_ptr_t = const CommandBase* const;
 
-
 using commands_map_t = std::map<CommandDescriptor, command_generic_ptr_t>;
 
 /**
@@ -98,12 +97,15 @@ using commands_map_t = std::map<CommandDescriptor, command_generic_ptr_t>;
  * @param cmd
  */
 template <typename... Args>
-constexpr void emplace_command(commands_map_t& commands_map,
-                               const CommandDescriptor& cmd_descriptor,
-                               std::function<ZclStatus(Args...)> cmd)
+constexpr void register_command(commands_map_t& commands_map,
+                                const CommandDescriptor& cmd_descriptor,
+                                ZclStatus (*cmd)(Args...))
 {
+  commands_map.emplace(cmd_descriptor,new  Command<Args...>(cmd)); 
 
-  commands_map.emplace(cmd_descriptor, new Command<Args...>(cmd)); 
+  std::cout << "register_command called for " << cmd_descriptor.get_description() << '\n';
+  // log commands_map size
+  std::cout << "commands_map size: " << commands_map.size() << '\n';
 }
 
 }  // namespace zcl

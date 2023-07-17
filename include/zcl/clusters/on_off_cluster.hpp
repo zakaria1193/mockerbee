@@ -99,14 +99,22 @@ const cluster_descriptor_t cluster_descriptor{/*id=*/6,
                                               /*is_msp=*/false,
                                               /*description=*/"onOff"};
 
-const commands_map_t on_off_commands_map = {
-    {setOffCmdDescriptor,
-     static_cast<command_generic_ptr_t>(&setOffCommand)},
-};
-
 // OnOffCluster class
 class OnOffCluster : public Cluster
 {
+
+
+  commands_map_t on_off_commands_map{};
+    // FIXME add commands as methods
+    // fill command map using std::bind
+    // Mapping of command IDs to command functions
+    /*
+    std::unordered_map<int, std::function<void()>> commandMap{
+        {1, std::bind(&LightingCluster::setOff, this)},
+        {2, std::bind(&LightingCluster::setOn, this)}
+    };
+    */
+
  public:
   OnOffCluster()
       : Cluster(
@@ -114,8 +122,9 @@ class OnOffCluster : public Cluster
             /*attribute_descriptors=*/
             {onOffAttributeDescriptor, onTimeAttributeDescriptor,
              offWaitTimeAttributeDescriptor},
-            /*commands_map=*/on_off_commands_map)
+            /*commands_map=*/ on_off_commands_map)
   {
+      register_command(on_off_commands_map, setOffCmdDescriptor, &setOffExecuter);
   }
 };
 }  // namespace zcl::on_off_cluster
