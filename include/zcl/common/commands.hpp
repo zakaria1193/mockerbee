@@ -48,66 +48,6 @@ class CommandDescriptor
     return description;
   }
 };
-
-class CommandBase
-{
- public:
-  CommandBase()          = default;
-  virtual ~CommandBase() = default;
-
-  // cppcoreguidelines-special-member-functions implies these definitions:
-  CommandBase(const CommandBase&)            = delete;
-  CommandBase& operator=(const CommandBase&) = delete;
-  CommandBase(CommandBase&&)                 = delete;
-  CommandBase& operator=(CommandBase&&)      = delete;
-};
-
-template <typename... Args>
-class Command : public CommandBase
-{
-  using exec_t = ZclStatus (*)(Args...);
-  exec_t exec_;
-
- public:
-  explicit Command(exec_t exec) : exec_(exec) {}
-
-  ZclStatus operator()(Args... args) const
-  {
-    if (exec_ == nullptr)
-    {
-      std::cout << "Command operator() exec_ == nullptr" << '\n';
-      return ZclStatus::null_pointer;
-    }
-
-    std::cout << "Command operator()" << exec_ << '\n';
-    return exec_(args...);
-  }
-};
-
-using command_generic_ptr_t = const CommandBase* const;
-
-using commands_map_t = std::map<CommandDescriptor, command_generic_ptr_t>;
-
-/**
- * @brief Emplace command into commands map
- *
- * @tparam Args
- * @param commands_map
- * @param cmd_descriptor
- * @param cmd
- */
-template <typename... Args>
-constexpr void register_command(commands_map_t& commands_map,
-                                const CommandDescriptor& cmd_descriptor,
-                                ZclStatus (*cmd)(Args...))
-{
-  commands_map.emplace(cmd_descriptor,new  Command<Args...>(cmd)); 
-
-  std::cout << "register_command called for " << cmd_descriptor.get_description() << '\n';
-  // log commands_map size
-  std::cout << "commands_map size: " << commands_map.size() << '\n';
-}
-
 }  // namespace zcl
 
 #endif  // ZCL_COMMON_COMMANDS_HPP

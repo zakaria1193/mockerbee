@@ -39,28 +39,17 @@ const attribute_descriptor_t offWaitTimeAttributeDescriptor = {
 //////////////////////////////
 
 // setOff command
-const CommandDescriptor setOffCmdDescriptor{/*cmd_id=*/0,
-                                            /*is_common=*/false,
-                                            /*is_mandatory=*/true,
-                                            /*description=*/"setOff"};
-ZclStatus               setOffExecuter(Cluster& cluster);
-const Command           setOffCommand{/*exec=*/setOffExecuter};
-
 // setOn command
 const CommandDescriptor setOnCmdDescriptor{/*cmd_id=*/1,
                                            /*is_common=*/false,
                                            /*is_mandatory=*/true,
                                            /*description=*/"setOn"};
-ZclStatus               setOnExecuter(Cluster& cluster);
-const Command           setOnCommand{/*exec=*/setOnExecuter};
 
 // toggle command
 const CommandDescriptor toggleCmdDescriptor{/*cmd_id=*/2,
                                             /*is_common=*/false,
                                             /*is_mandatory=*/true,
                                             /*description=*/"toggle"};
-ZclStatus               toggleExecuter(Cluster& cluster);
-const Command           toggleCommand{/*exec=*/toggleExecuter};
 
 // offWithEffect command
 const CommandDescriptor offWithEffectCmdDescriptor{
@@ -68,9 +57,6 @@ const CommandDescriptor offWithEffectCmdDescriptor{
     /*is_common=*/false,
     /*is_mandatory=*/false,
     /*description=*/"offWithEffect"};
-ZclStatus     offWithEffectExecuter(Cluster& cluster, uint8_t effectIdentifier,
-                                    uint16_t effectVariant);
-const Command offWithEffectCommand{/*exec=*/offWithEffectExecuter};
 
 // onWithRecallGlobalScene command
 const CommandDescriptor onWithRecallGlobalSceneCmdDescriptor{
@@ -78,9 +64,6 @@ const CommandDescriptor onWithRecallGlobalSceneCmdDescriptor{
     /*is_common=*/false,
     /*is_mandatory=*/false,
     /*description=*/"onWithRecallGlobalScene"};
-ZclStatus     onWithRecallGlobalSceneExecuter(Cluster& cluster);
-const Command onWithRecallGlobalSceneCommand{
-    /*exec=*/onWithRecallGlobalSceneExecuter};
 
 // onWithTimedOff command
 const CommandDescriptor onWithTimedOffCmdDescriptor{
@@ -88,9 +71,6 @@ const CommandDescriptor onWithTimedOffCmdDescriptor{
     /*is_common=*/false,
     /*is_mandatory=*/false,
     /*description=*/"onWithTimedOff"};
-ZclStatus     onWithTimedOffExecuter(Cluster& cluster, uint8_t onOffControl,
-                                     uint16_t onTime, uint16_t offWaitTime);
-const Command onWithTimedOffCommand{/*exec=*/onWithTimedOffExecuter};
 
 //////////////////////////////
 
@@ -102,30 +82,66 @@ const cluster_descriptor_t cluster_descriptor{/*id=*/6,
 // OnOffCluster class
 class OnOffCluster : public Cluster
 {
-
-
-  commands_map_t on_off_commands_map{};
-    // FIXME add commands as methods
-    // fill command map using std::bind
-    // Mapping of command IDs to command functions
-    /*
-    std::unordered_map<int, std::function<void()>> commandMap{
-        {1, std::bind(&LightingCluster::setOff, this)},
-        {2, std::bind(&LightingCluster::setOn, this)}
-    };
-    */
-
  public:
   OnOffCluster()
       : Cluster(
             /*descriptor=*/cluster_descriptor,
             /*attribute_descriptors=*/
             {onOffAttributeDescriptor, onTimeAttributeDescriptor,
-             offWaitTimeAttributeDescriptor},
-            /*commands_map=*/ on_off_commands_map)
+             offWaitTimeAttributeDescriptor})
   {
-      register_command(on_off_commands_map, setOffCmdDescriptor, &setOffExecuter);
   }
+
+  /**
+   * @brief Trigger OFF command
+   *
+   * @return ZclStatus
+   */
+  ZclStatus setOffCommand();
+
+  /**
+   * @brief Trigger ON command
+   *
+   * @return ZclStatus
+   */
+  ZclStatus setOnCommand();
+
+  /**
+   * @brief Trigger TOGGLE command
+   *
+   * @return ZclStatus
+   */
+  ZclStatus toggleCommand();
+
+  /**
+   * @brief Trigger OFF_WITH_EFFECT command
+   *
+   * @param effectIdentifier
+   * @param effectVariant
+   * @return ZclStatus
+   */
+
+  ZclStatus offWithEffectCommand(uint8_t  effectIdentifier,
+                                 uint16_t effectVariant);
+
+  /**
+   * @brief Trigger ON_WITH_RECALL_GLOBAL_SCENE command
+   *
+   * @return ZclStatus
+   */
+
+  ZclStatus onWithRecallGlobalSceneCommand();
+
+  /**
+   * @brief Trigger ON_WITH_TIMED_OFF command
+   *
+   * @param onOffControl
+   * @param onTime
+   * @param offWaitTime
+   * @return ZclStatus
+   */
+  ZclStatus onWithTimedOffCommand(uint8_t onOffControl, uint16_t onTime,
+                                  uint16_t offWaitTime);
 };
 }  // namespace zcl::on_off_cluster
 

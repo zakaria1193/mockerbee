@@ -2,9 +2,8 @@
 #define DEVICE_POOL_POOL_HPP
 
 #include <device/device.hpp>
-#include <nwk/pan.hpp>
-
 #include <memory>
+#include <nwk/pan.hpp>
 
 namespace device
 {
@@ -14,7 +13,7 @@ class Pool
   device_list devices = {};
 
   // Each pool has its own PAN
-    std::shared_ptr<nwk::Pan> pan;
+  std::shared_ptr<nwk::Pan> pan;
 
  public:
   Pool() = delete;
@@ -22,7 +21,7 @@ class Pool
   explicit Pool(nwk::pan_id_t pan_id) : pan(std::make_shared<nwk::Pan>(pan_id))
   {
   }
-  
+
   Pool(device_list devices, nwk::pan_id_t pan_id)
       : devices(std::move(devices)), pan(std::make_shared<nwk::Pan>(pan_id))
   {

@@ -58,7 +58,7 @@ set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(LIBRARY_SOURCES
     src/clusters/on_off.cpp
     src/clusters/global_commands.cpp
-    src/nwk_mgt_commands.cpp
+    src/nwk/nwk_mgt_commands.cpp
 )
 
 #Generate the static library from the library sources

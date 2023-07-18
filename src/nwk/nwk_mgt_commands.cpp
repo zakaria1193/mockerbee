@@ -3,7 +3,7 @@
 namespace nwk
 {
 
-zcl::ZclStatus requestNwkAddressExecuter(
+zcl::ZclStatus requestNwkAddressCommand(
     device::Pool& pool, const device::MacAddress& input_mac_address,
     device::short_address_t& output_nwk_address)
 {
@@ -14,7 +14,7 @@ zcl::ZclStatus requestNwkAddressExecuter(
   return zcl::ZclStatus::success;
 }
 
-zcl::ZclStatus requestMacAddressExecuter(
+zcl::ZclStatus requestMacAddressCommand(
     device::Pool& pool, const device::short_address_t& input_nwk_address,
     device::MacAddress& output_mac_address)
 {
@@ -25,7 +25,7 @@ zcl::ZclStatus requestMacAddressExecuter(
   return zcl::ZclStatus::success;
 }
 
-zcl::ZclStatus leaveExecuter(device::Device& device)
+zcl::ZclStatus leaveCommand(device::Device& device)
 {
   device.leave_pan();
 

@@ -3,48 +3,50 @@
 
 namespace zcl::on_off_cluster
 {
-ZclStatus setOffExecuter(Cluster& cluster)
+ZclStatus OnOffCluster::setOffCommand()
 {
-  std::cout << "setOffExecuter" << '\n';
-  cluster.set_attribute_value(onOffAttributeDescriptor.id, true);
+  std::cout << "setOffCommand" << '\n';
+  this->set_attribute_value(onOffAttributeDescriptor.id, true);
 
   return ZclStatus::success;
 }
 
-ZclStatus setOnExecuter(Cluster& cluster)
+ZclStatus OnOffCluster::setOnCommand()
 {
-  cluster.set_attribute_value(onOffAttributeDescriptor.id, true);
+  this->set_attribute_value(onOffAttributeDescriptor.id, true);
 
   return ZclStatus::success;
 }
 
-ZclStatus toggleExecuter(Cluster& cluster)
+ZclStatus OnOffCluster::toggleCommand()
 {
-  std::cout << "toggleExecuter" << '\n';
+  std::cout << "toggleCommand" << '\n';
 
   return ZclStatus::not_implemented;
 }
 
-ZclStatus onWithRecallGlobalSceneExecuter(Cluster& cluster)
+ZclStatus OnOffCluster::offWithEffectCommand(uint8_t  effectIdentifier,
+                                             uint16_t effectVariant)
 {
-  std::cout << "onWithRecallGlobalSceneExecuter" << '\n';
+  std::cout << "offWithEffectCommand" << '\n';
 
   return ZclStatus::not_implemented;
 }
 
-ZclStatus offWithEffectExecuter(Cluster& cluster, uint8_t effectIdentifier,
-                                uint16_t effectVariant)
+ZclStatus OnOffCluster::onWithRecallGlobalSceneCommand()
 {
-  std::cout << "offWithEffectExecuter" << '\n';
+  std::cout << "onWithRecallGlobalSceneCommand" << '\n';
 
   return ZclStatus::not_implemented;
 }
 
-ZclStatus onWithTimedOffExecuter(Cluster& cluster, uint8_t onOffControl,
-                                 uint16_t onTime, uint16_t offWaitTime)
+ZclStatus OnOffCluster::onWithTimedOffCommand(uint8_t  onOffControl,
+                                              uint16_t onTime,
+                                              uint16_t offWaitTime)
 {
-  std::cout << "onWithTimedOffExecuter" << '\n';
+  std::cout << "onWithTimedOffCommand" << '\n';
 
   return ZclStatus::not_implemented;
 }
+
 }  // namespace zcl::on_off_cluster

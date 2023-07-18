@@ -27,19 +27,15 @@ struct cluster_descriptor_t
 
 class Cluster
 {
-  cluster_descriptor_t        descriptor;
-  attributes_list_t           attributes;
-  const commands_map_t*       commands_map;
-  static const commands_map_t common_commands_map;
+  cluster_descriptor_t descriptor;
+  attributes_list_t    attributes;
 
  public:
   // Constructor
   Cluster(cluster_descriptor_t                       descriptor,
-          const std::vector<attribute_descriptor_t>& attribute_descriptors,
-          const commands_map_t&                      commands_map)
+          const std::vector<attribute_descriptor_t>& attribute_descriptors)
       : descriptor(std::move(descriptor)),
-        attributes(create_attributes_list(attribute_descriptors)),
-        commands_map(&commands_map)
+        attributes(create_attributes_list(attribute_descriptors))
   {
   }
 
@@ -47,12 +43,6 @@ class Cluster
   [[nodiscard]] const attributes_list_t& get_attributes() const
   {
     return attributes;
-  }
-
-  // Method to get the list of commands
-  [[nodiscard]] const commands_map_t* get_commands() const
-  {
-    return commands_map;
   }
 
   // Method to get the cluster descriptor
@@ -101,50 +91,28 @@ class Cluster
     attr.set_value(value);
   }
 
-  // Generic command executer
-  template <typename... Args>
-  ZclStatus execute_cluster_command(command_id_t cmd_id, const bool is_common,
-                                    Args... args)
-  {
-    const commands_map_t* target_commands_map = nullptr;
+  // ZCL commands methods
 
-    if (is_common)
-    {
-      target_commands_map = &common_commands_map;
-    }
-    else
-    {
-      target_commands_map = commands_map;
-    }
+  // readAttributeCommand
+  ZclStatus readAttributeCommand(const attr_id_t& attribute_id,
+                                 attr_value_t&    value) const;
 
-    for (const auto& [descriptor, gen_cmd_ptr] : *target_commands_map)
-    {
-      if (descriptor.check_match(cmd_id, is_common))
-      {
-        if (gen_cmd_ptr == nullptr)
-        {
-          throw std::runtime_error("Command null pointer");
-        }
-        // Downcast from CommandBase to a cluster command
-        using target_type = const Command<Cluster&, Args...>* const;
+  // writeAttributeCommand
+  ZclStatus writeAttributeCommand(const attr_id_t&    attribute_id,
+                                  const attr_value_t& value);
 
-        std::cout << "Calling command " << descriptor.get_description()
-                  << " of cluster " << this->descriptor.description << " "
-                  << __PRETTY_FUNCTION__ << '\n';
+  // configureReportingCommand
+  ZclStatus configureReportingCommand(
+      const attr_id_t&              attribute_id,
+      const ReportingConfiguration& reporting_configuration);
 
-        auto cmd_ptr = dynamic_cast<target_type>(gen_cmd_ptr);
-        if (cmd_ptr == nullptr)
-        {
-          throw std::runtime_error(
-              "Command downcast failed,"
-              "make sure the template arguments are correct");
-        }
+  // discoverAttributesCommand
+  ZclStatus discoverAttributesCommand(
+      std::vector<attribute_descriptor_t>& attribute_descriptors) const;
 
-        return (*cmd_ptr)(*this, args...);
-      }
-    }
-    throw std::runtime_error("Command not found");
-  }
+  // sendReportingCommand
+  [[nodiscard]] ZclStatus sendReportingCommand(const attr_id_t&    attribute_id,
+                                               const attr_value_t& value) const;
 };
 }  // namespace zcl
 
