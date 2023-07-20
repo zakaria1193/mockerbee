@@ -58,6 +58,7 @@ set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(LIBRARY_SOURCES
     src/clusters/on_off.cpp
     src/clusters/global_commands.cpp
+    src/common/cluster.cpp
     src/nwk/nwk_mgt_commands.cpp
 )
 
