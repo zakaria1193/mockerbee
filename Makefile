@@ -38,7 +38,12 @@ build: build_$(CONFIG)
 %:
 	cmake --build ${BUILD_DIR} -t $@ ${VERBOSE_FLAG} ${DRY_RUN_FLAG}
 
+OUTPUT_BIN := ${BUILD_DIR}/$(CONFIG)/mockbee_test_bin
+
 run: build_$(CONFIG)
-	${BUILD_DIR}/$(CONFIG)/mockbee_test_bin
+	${OUTPUT_BIN}
+
+gdb: build_$(CONFIG)
+	gdb-multiarch ${OUTPUT_BIN} -ex "run"
 
 .PHONY: build build_$(CONFIG) configure run
