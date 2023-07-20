@@ -61,6 +61,9 @@ set(LIBRARY_SOURCES
     src/common/cluster.cpp
     src/common/command_descriptor.cpp
     src/nwk/nwk_mgt_commands.cpp
+    src/device/device.cpp
+    src/device/endpoint.cpp
+    src/device/mac_address.cpp
 )
 
 #Generate the static library from the library sources

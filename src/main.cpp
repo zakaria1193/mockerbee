@@ -5,9 +5,12 @@
 #include <zcl/clusters/global_commands.hpp>
 #include <zcl/clusters/on_off_cluster.hpp>
 
-const device::MacAddress mac_address{0x11, 0x22, 0x33, 0x44,
-                                     0x55, 0x66, 0x77, 0x88};
-const nwk::pan_id_t      pan_id = 0x1234;
+// const device::MacAddress mac_address{0x11, 0x22, 0x33, 0x44,
+//                                      0x55, 0x66, 0x77, 0x88};
+//
+const device::MacAddress mac_address =
+    device::MacAddress{0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88};
+const nwk::pan_id_t pan_id = 0x1234;
 
 // Do not optimize
 int main(int argc, char* argv[])
