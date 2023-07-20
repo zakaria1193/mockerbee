@@ -1,10 +1,7 @@
 #ifndef ZCL_CLUSTERS_GLOBAL_COMMANDS_HPP
 #define ZCL_CLUSTERS_GLOBAL_COMMANDS_HPP
 
-#include <zcl/common/attributes.hpp>
-#include <zcl/common/cluster.hpp>
-#include <zcl/common/commands.hpp>
-#include <zcl/common/reporting_configuration.hpp>
+#include <zcl/common/command_descriptor.hpp>
 #include <zcl/common/zcl_status.hpp>
 
 namespace zcl

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <zcl/clusters/global_commands.hpp>
+#include <zcl/common/cluster.hpp>
 
 namespace zcl
 {

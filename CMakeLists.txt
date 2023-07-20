@@ -59,6 +59,7 @@ set(LIBRARY_SOURCES
     src/clusters/on_off.cpp
     src/clusters/global_commands.cpp
     src/common/cluster.cpp
+    src/common/command_descriptor.cpp
     src/nwk/nwk_mgt_commands.cpp
 )
 

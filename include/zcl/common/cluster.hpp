@@ -10,7 +10,7 @@
 #include <variant>
 
 #include "attributes.hpp"
-#include "commands.hpp"
+#include "command_descriptor.hpp"
 #include "iostream"
 
 namespace zcl

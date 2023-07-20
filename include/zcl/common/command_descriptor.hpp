@@ -23,30 +23,18 @@ class CommandDescriptor
 
  public:
   // Custom comparison operator for command_descriptor_t as a key in std::map
-  bool operator<(const CommandDescriptor& other) const { return id < other.id; }
+  bool operator<(const CommandDescriptor& other) const;
 
   CommandDescriptor(command_id_t cmd_id, bool is_common, bool is_mandatory,
-                    std::string description)
-      : id(cmd_id),
-        is_common(is_common),
-        is_mandatory(is_mandatory),
-        description(std::move(description))
-  {
-  }
+                    std::string description);
 
-  [[nodiscard]] bool check_match(command_id_t cmd_id, bool is_common) const
-  {
-    return id == cmd_id && this->is_common == is_common;
-  }
+  [[nodiscard]] bool check_match(command_id_t cmd_id, bool is_common) const;
 
   // ID getter
-  [[nodiscard]] command_id_t get_id() const { return id; }
+  [[nodiscard]] command_id_t get_id() const;
 
   // Get description
-  [[nodiscard]] const std::string& get_description() const
-  {
-    return description;
-  }
+  [[nodiscard]] const std::string& get_description() const;
 };
 }  // namespace zcl
 

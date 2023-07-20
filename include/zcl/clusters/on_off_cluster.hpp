@@ -1,10 +1,7 @@
 #ifndef ZCL_CLUSTERS_ON_OFF_CLUSTER_HPP
 #define ZCL_CLUSTERS_ON_OFF_CLUSTER_HPP
 
-#include <zcl/common/attributes.hpp>
 #include <zcl/common/cluster.hpp>
-#include <zcl/common/commands.hpp>
-#include <zcl/common/zcl_status.hpp>
 
 namespace zcl::on_off_cluster
 {

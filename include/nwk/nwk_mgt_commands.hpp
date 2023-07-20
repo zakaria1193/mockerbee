@@ -3,7 +3,6 @@
 
 #include <device/device.hpp>
 #include <device_pool/pool.hpp>
-#include <zcl/common/commands.hpp>
 
 //////////////////////////////
 // Command descriptors

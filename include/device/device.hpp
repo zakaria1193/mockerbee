@@ -10,7 +10,6 @@
 
 #include "nwk/pan.hpp"
 #include "zcl/common/cluster.hpp"
-#include "zcl/common/commands.hpp"
 
 namespace device
 {
