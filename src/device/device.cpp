@@ -5,8 +5,8 @@ namespace device
 Device::Device(const MacAddress& mac_address, endpoint_list_t endpoints)
     : mac_address(mac_address), endpoints(std::move(endpoints))
 {
-  std::cout << "Device created with MAC: " << mac_address.get_string()
-            << " and " << endpoints.size() << " endpoints" << std::endl;
+  std::cout << "Device created with MAC: " << this->mac_address.get_string()
+            << " and " << this->endpoints.size() << " endpoints" << std::endl;
 }
 
 [[nodiscard]] MacAddress Device::get_mac_address() const { return mac_address; }

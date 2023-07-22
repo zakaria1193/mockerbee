@@ -7,7 +7,7 @@ namespace device
 {
 
 using endpoint_id_t  = uint8_t;
-using cluster_list_t = std::vector<zcl::Cluster>;
+using cluster_list_t = std::vector<std::unique_ptr<zcl::Cluster>>;
 
 class Endpoint
 {

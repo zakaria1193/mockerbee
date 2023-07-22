@@ -13,6 +13,7 @@ ZclStatus OnOffCluster::setOffCommand()
 
 ZclStatus OnOffCluster::setOnCommand()
 {
+  std::cout << "setOnCommand" << '\n';
   this->set_attribute_value(onOffAttributeDescriptor.id, true);
 
   return ZclStatus::success;

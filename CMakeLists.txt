@@ -84,7 +84,7 @@ target_compile_options(mockbee_library PRIVATE
     -Wno-unused-parameter
     -Wno-unused-private-field
     $<$<CONFIG:Debug>:
-        -ggdb
+        -ggdb3
         -fdebug-macro
         -fparse-all-comments
         -fno-omit-frame-pointer

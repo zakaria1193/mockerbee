@@ -8,6 +8,7 @@
 #include <tuple>
 #include <utility>
 #include <variant>
+#include <memory>
 
 #include "attributes.hpp"
 #include "command_descriptor.hpp"
@@ -39,6 +40,9 @@ class Cluster
   {
   }
 
+  // Destructor as virtual to allow polymorphism
+  virtual ~Cluster() = default;
+
   [[nodiscard]] const attributes_list_t&    get_attributes() const;
   [[nodiscard]] const cluster_descriptor_t& get_descriptor() const;
   [[nodiscard]] const Attribute& get_attribute_const(attr_id_t attr_id) const;
@@ -69,6 +73,7 @@ class Cluster
   [[nodiscard]] ZclStatus sendReportingCommand(const attr_id_t&    attribute_id,
                                                const attr_value_t& value) const;
 };
+
 }  // namespace zcl
 
 #endif  // ZCL_COMMON_CLUSTER_HPP

@@ -12,6 +12,7 @@ const device::MacAddress mac_address =
     device::MacAddress{0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88};
 const nwk::pan_id_t pan_id = 0x1234;
 
+
 // Do not optimize
 int main(int argc, char* argv[])
 {
@@ -29,6 +30,20 @@ int main(int argc, char* argv[])
   device.get_endpoint(1)
       .get_cluster(cluster_id)
       .readAttributeCommand(attr_id, read_attr);
+
+  auto cls = device.get_endpoint(1).get_cluster(cluster_id);
+  std::cout << "typeid(cls).name(): " << typeid(cls).name() << '\n';
+  std::cout << "typeid(zcl::on_off_cluster::OnOffCluster).name(): "
+            << typeid(zcl::on_off_cluster::OnOffCluster).name() << '\n';
+  auto *cls_ = dynamic_cast<zcl::on_off_cluster::OnOffCluster*>(&cls);
+  if (cls_ == nullptr)
+  {
+    std::cout << "cls_ is null" << '\n';
+    exit(1);
+  }
+  cls_->setOffCommand();
+
+
 
   // Pool
 
