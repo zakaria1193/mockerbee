@@ -30,7 +30,7 @@ class Device
 
  public:
   Device() = delete;
-  Device(const MacAddress& mac_address, endpoint_list_t endpoints);
+  Device(const MacAddress& mac_address, std::initializer_list<Endpoint> endpoints);
 
   [[nodiscard]] MacAddress get_mac_address() const;
 

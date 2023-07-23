@@ -9,7 +9,7 @@ namespace device
 {
 class Pool
 {
-  using device_list   = std::vector<Device>;
+  using device_list   = std::vector<std::unique_ptr<Device>>;
   device_list devices = {};
 
   // Each pool has its own PAN
@@ -22,24 +22,28 @@ class Pool
   {
   }
 
-  Pool(device_list devices, nwk::pan_id_t pan_id)
-      : devices(std::move(devices)), pan(std::make_shared<nwk::Pan>(pan_id))
+  Pool(std::initializer_list<Device> devices, nwk::pan_id_t pan_id)
+      : pan(std::make_shared<nwk::Pan>(pan_id))
   {
+    for (const auto& device : devices)
+    {
+      add_device(device);
+    }
   }
 
   [[nodiscard]] std::shared_ptr<nwk::Pan> get_pan() const { return pan; }
 
   [[nodiscard]] const device_list& get_devices() const { return devices; }
 
-  void add_device(Device& device) { devices.push_back(device); }
+  void add_device(Device& device) { devices.push_back(std::make_unique<Device>(device)); }
 
   device::Device& get_device_by_mac(const device::MacAddress& mac)
   {
     for (auto& device : devices)
     {
-      if (device.get_mac_address() == mac)
+      if (device->get_mac_address() == mac)
       {
-        return device;
+        return *device;
       }
     }
 
@@ -51,9 +55,9 @@ class Pool
   {
     for (auto& device : devices)
     {
-      if (device.get_short_address() == short_address)
+      if (device->get_short_address() == short_address)
       {
-        return device;
+        return *device;
       }
     }
 

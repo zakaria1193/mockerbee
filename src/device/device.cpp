@@ -2,11 +2,16 @@
 
 namespace device
 {
-Device::Device(const MacAddress& mac_address, endpoint_list_t endpoints)
-    : mac_address(mac_address), endpoints(std::move(endpoints))
+Device::Device(const MacAddress& mac_address, std::initializer_list<Endpoint> endpoints)
+    : mac_address(mac_address)
 {
   std::cout << "Device created with MAC: " << this->mac_address.get_string()
             << " and " << this->endpoints.size() << " endpoints" << std::endl;
+
+  for (const auto& endpoint : endpoints)
+  {
+    this->endpoints.emplace_back(std::make_unique<Endpoint>(endpoint));
+  }
 }
 
 [[nodiscard]] MacAddress Device::get_mac_address() const { return mac_address; }
@@ -31,15 +36,15 @@ Device::Device(const MacAddress& mac_address, endpoint_list_t endpoints)
 Endpoint& Device::get_endpoint(const endpoint_id_t ep_id)
 {
   auto ept = std::find_if(endpoints.begin(), endpoints.end(),
-                          [ep_id](const Endpoint& ept)
-                          { return ept.get_endpoint_id() == ep_id; });
+                          [ep_id](const auto& ept)
+                          { return ept->get_endpoint_id() == ep_id; });
 
   if (ept == endpoints.end())
   {
     throw std::runtime_error("Endpoint not found");
   }
 
-  return *ept;
+  return **ept;
 }
 
 bool Device::join_pan(const std::shared_ptr<nwk::Pan>& pan)

@@ -15,14 +15,14 @@ class Endpoint
   cluster_list_t clusters;
 
  public:
-  Endpoint(endpoint_id_t ep_id, cluster_list_t clusters);
+  Endpoint(endpoint_id_t ep_id, std::initializer_list<zcl::Cluster> clusters);
 
   [[nodiscard]] endpoint_id_t get_endpoint_id() const;
 
   zcl::Cluster& get_cluster(zcl::cluster_id_t cluster_id);
 };
 
-using endpoint_list_t = std::vector<Endpoint>;
+using endpoint_list_t = std::vector<std::unique_ptr<Endpoint>>;
 
 }  // namespace device
 
